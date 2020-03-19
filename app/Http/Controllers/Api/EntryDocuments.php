@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EntryDocumentAnalyse;
+use App\Http\Requests\EntryDocumentDelete;
+use App\Http\Requests\EntryDocumentPublish;
 use App\Http\Requests\EntryDocumentStore;
 use App\Data\Repositories\EntryDocuments as EntryDocumentsRepository;
+use App\Http\Requests\EntryDocumentVerify;
 
 class EntryDocuments extends Controller
 {
@@ -46,6 +50,7 @@ class EntryDocuments extends Controller
     }
 
     public function publish(
+        EntryDocumentPublish $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
@@ -55,6 +60,7 @@ class EntryDocuments extends Controller
     }
 
     public function unpublish(
+        EntryDocumentPublish $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
@@ -64,6 +70,7 @@ class EntryDocuments extends Controller
     }
 
     public function verify(
+        EntryDocumentVerify $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
@@ -73,6 +80,7 @@ class EntryDocuments extends Controller
     }
 
     public function unverify(
+        EntryDocumentVerify $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
@@ -82,6 +90,7 @@ class EntryDocuments extends Controller
     }
 
     public function analyse(
+        EntryDocumentAnalyse $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
@@ -91,6 +100,7 @@ class EntryDocuments extends Controller
     }
 
     public function unanalyse(
+        EntryDocumentAnalyse $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,
@@ -100,6 +110,7 @@ class EntryDocuments extends Controller
     }
 
     public function delete(
+        EntryDocumentDelete $request,
         $congressmanId,
         $congressmanBudgetId,
         $entryId,

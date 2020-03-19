@@ -72,13 +72,17 @@ class CongressmanBudget extends Model
         });
     }
 
-    private function createTransportEntry($balance, $date, $field)
+    private function createTransportEntry($balance, $date, $type)
     {
-        $this->{$field} = ($entry2 = Entry::updateOrCreate(
+        $isCredit = $type == 'credit';
+
+        $this->{'transport_' .
+            $type .
+            '_entry_id'} = ($entry2 = Entry::updateOrCreate(
             [
                 'congressman_budget_id' => $this->id,
                 'cost_center_id' => app(CostCenters::class)->findByCode(
-                    $balance > 0
+                    $isCredit
                         ? Constants::COST_CENTER_TRANSPORT_CREDIT_ID
                         : Constants::COST_CENTER_TRANSPORT_DEBIT_ID
                 )->id
@@ -89,11 +93,12 @@ class CongressmanBudget extends Model
                 'entry_type_id' => Constants::ENTRY_TYPE_TRANSPORT_ID,
                 'object' =>
                     'Transporte de saldo ' .
-                    ($balance > 0
+                    ($isCredit
                         ? 'do período anterior'
                         : 'para o próximo período'),
-                'date' =>
-                    $balance > 0 ? $date->startOfMonth() : $date->endOfMonth(),
+                'date' => $isCredit
+                    ? $date->startOfMonth()
+                    : $date->endOfMonth(),
                 'value' => $balance
             ]
         ))->id;
@@ -117,15 +122,15 @@ class CongressmanBudget extends Model
 
     protected function fillValue(): bool
     {
-
         if ($this->percentageChanged()) {
-
             $budget = app(Budgets::class)->findById($this->budget_id);
 
             $this->value = ($budget->value * $this->percentage) / 100;
 
-            if($budget->date->year >= config('app.year_round_change') && $budget->date->month >= config('app.month_round_change') ) {
-
+            if (
+                $budget->date->year >= config('app.year_round_change') &&
+                $budget->date->month >= config('app.month_round_change')
+            ) {
                 $this->value = trunc_value_with_two_digits($this->value);
             }
             return true;
@@ -137,17 +142,11 @@ class CongressmanBudget extends Model
     /**
      * @param $balance\
      */
-    private function updateTransportEntry($balance, $costCenterId)
+    private function updateTransportEntry($balance, $type)
     {
         Entry::disableEvents();
 
-        $balance == 0
-            ? $this->makeEmptyTransport($costCenterId)
-            : $this->createTransportEntry(
-                $balance,
-                $this->budget->date,
-                'transport_' . ($balance > 0 ? 'credit' : 'debit') . '_entry_id'
-            );
+        $this->createTransportEntry($balance, $this->budget->date, $type);
 
         Entry::enableEvents();
     }
@@ -166,7 +165,6 @@ class CongressmanBudget extends Model
      */
     public function save(array $options = [])
     {
-
         $updated = $this->fillValue();
 
         $saved = parent::save();
@@ -230,32 +228,44 @@ class CongressmanBudget extends Model
             'object' => 'Crédito em conta-corrente',
             'cost_center_id' => Constants::COST_CENTER_CREDIT_ID,
             'entry_type_id' => Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID,
-            'date' => now(),
+            'date' => $this->budget->date->startOfMonth() ?? now(),
             'value' => $this->value
         ]);
+    }
+
+    public function isDepositable()
+    {
+        return !$this->has_deposit && blank($this->closed_at);
+    }
+
+    public function isClosable()
+    {
+        return blank($this->analysed_at);
+    }
+
+    public function isAnalysable()
+    {
+        return $this->closed_at && blank($this->published_at);
     }
 
     public function updateTransportEntries()
     {
         //$next é o mês seguinte ao atual
         if ($next = $this->congressman->getNextBudgetRelativeTo($this)) {
-            //            info(['next', $next->toArray()]);
-
             //Valor de todos os lançamentos do mês sem o transporte
             $value = $this->getBalanceWithoutDebitTransport();
 
             //Aqui é criado o transporte de crédito para o próximo mês
             $next->updateTransportEntry(
                 $balance = abs($value = $value < 0 ? 0 : $value),
-                Constants::COST_CENTER_TRANSPORT_CREDIT_ID
+                'credit'
             );
 
             //$balance tem o valor que vai ser transportado para o próximo mês. Se for negativo, fica zero
             //Aqui é criado o transporte de débito no mês atual
-            $this->updateTransportEntry(
-                $balance * -1,
-                Constants::COST_CENTER_TRANSPORT_DEBIT_ID
-            );
+            $this->updateTransportEntry($balance * -1, 'debit');
+
+            $next->updateTransportEntries();
         }
     }
 

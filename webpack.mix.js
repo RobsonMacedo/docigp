@@ -1,4 +1,5 @@
 const mix = require('laravel-mix')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 /*
  |--------------------------------------------------------------------------
@@ -20,9 +21,9 @@ mix.js('resources/js/app.js', 'public/js')
 const LiveReloadPlugin = require('webpack-livereload-plugin')
 
 mix.webpackConfig({
-    plugins: [new LiveReloadPlugin()],
+    plugins: [new LiveReloadPlugin(), new CleanWebpackPlugin({cleanOnceBeforeBuildPatterns: ['js/*', '!static-files*']})],
 
     output: {
-        chunkFilename: 'js/chunks/chunk-[name].js',
+        chunkFilename: 'js/chunks/[chunkhash].js',
     },
 })

@@ -29,10 +29,18 @@ trait Selectable
 
     public function replaceWhere($select)
     {
-        return str_replace(
+        $select = str_replace(
             ':published-at-filter:',
             !auth()->user() ? 'and published_at is not null' : '',
             $select
         );
+
+        $select = str_replace(
+            ':analysed-at-filter:',
+            !auth()->user() ? 'and analysed_at is not null' : '',
+            $select
+        );
+
+        return $select;
     }
 }

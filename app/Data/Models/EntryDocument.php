@@ -3,6 +3,7 @@
 namespace App\Data\Models;
 
 use App\Data\Scopes\Published;
+use App\Data\Scopes\Analysed;
 use App\Data\Traits\MarkAsUnread;
 use App\Data\Traits\ModelActionable;
 
@@ -17,7 +18,7 @@ class EntryDocument extends Model
         'analysed_at',
         'analysed_by_id',
         'published_at',
-        'published_by_id',
+        'published_by_id'
     ];
 
     protected $selectColumns = ['entry_documents.*'];
@@ -35,6 +36,8 @@ class EntryDocument extends Model
         parent::boot();
 
         static::addGlobalScope(new Published());
+
+        static::addGlobalScope(new Analysed());
 
         static::saved(function (EntryDocument $model) {
             $model->markAsUnread();
@@ -59,5 +62,23 @@ class EntryDocument extends Model
     public function congressman()
     {
         return $this->entry->congressmanBudget->congressman();
+    }
+
+    public function isAnalysable()
+    {
+        return !blank($this->verified_at);
+    }
+
+    public function isPublishable()
+    {
+        //dd(blank($this->congressmanBudget->entry->closed_at));
+
+        return blank($this->verified_at) &&
+            blank($this->entry->congressmanBudget->closed_at);
+    }
+
+    public function isVerifiable()
+    {
+        return blank($this->entry->congressmanBudget->closed_at);
     }
 }

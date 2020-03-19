@@ -2,12 +2,12 @@
     <div>
         <b-modal v-model="showModal" title="Comentário" @shown="onShow()">
             <template>
-                <app-input
+                <app-textarea
                     name="text"
                     label="Comentário"
                     v-model="form.fields.text"
                     :form="form"
-                ></app-input>
+                ></app-textarea>
             </template>
 
             <template slot="modal-footer">

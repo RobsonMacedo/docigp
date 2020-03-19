@@ -6,6 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CongressmanStore;
 use App\Http\Requests\CongressmanBudgetUpdate;
 use App\Data\Repositories\CongressmanBudgets as CongressmanBudgetsRepository;
+use App\Http\Requests\CongressmanBudgetClose;
+use App\Http\Requests\CongressmanBudgetReopen;
+use App\Http\Requests\CongressmanBudgetPublish;
+use App\Http\Requests\CongressmanBudgetAnalyse;
+use App\Http\Requests\CongressmanBudgetDeposit;
 
 class CongressmanBudgets extends Controller
 {
@@ -61,42 +66,63 @@ class CongressmanBudgets extends Controller
         )->getAvailableCongressmanBudgets();
     }
 
-    public function close($congressmanId, $congressmanBudgetId)
-    {
+    public function close(
+        CongressmanBudgetClose $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
         app(CongressmanBudgetsRepository::class)->close($congressmanBudgetId);
     }
 
-    public function reopen($congressmanId, $congressmanBudgetId)
-    {
+    public function reopen(
+        CongressmanBudgetReopen $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
         app(CongressmanBudgetsRepository::class)->reopen($congressmanBudgetId);
     }
 
-    public function analyse($congressmanId, $congressmanBudgetId)
-    {
+    public function analyse(
+        CongressmanBudgetAnalyse $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
         app(CongressmanBudgetsRepository::class)->analyse($congressmanBudgetId);
     }
 
-    public function unanalyse($congressmanId, $congressmanBudgetId)
-    {
+    public function unanalyse(
+        CongressmanBudgetAnalyse $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
         app(CongressmanBudgetsRepository::class)->unanalyse(
             $congressmanBudgetId
         );
     }
 
-    public function publish($congressmanId, $congressmanBudgetId)
-    {
+    public function publish(
+        CongressmanBudgetPublish $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
         app(CongressmanBudgetsRepository::class)->publish($congressmanBudgetId);
     }
 
-    public function unpublish($congressmanId, $congressmanBudgetId)
-    {
+    public function unpublish(
+        CongressmanBudgetPublish $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
         app(CongressmanBudgetsRepository::class)->unpublish(
             $congressmanBudgetId
         );
     }
 
-    public function deposit($congressmanId, $congressmanBudgetId)
-    {
+    public function deposit(
+        CongressmanBudgetDeposit $request,
+        $congressmanId,
+        $congressmanBudgetId
+    ) {
         app(CongressmanBudgetsRepository::class)->deposit($congressmanBudgetId);
     }
 }

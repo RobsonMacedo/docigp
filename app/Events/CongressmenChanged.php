@@ -18,7 +18,7 @@ class CongressmenChanged extends Broadcastable
      *
      * @param $congressmanId
      */
-    public function __construct($congressmanId)
+    public function __construct($congressmanId = null)
     {
         $this->congressmanId = $congressmanId;
     }

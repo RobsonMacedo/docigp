@@ -12,7 +12,20 @@ Vue.use(() => import('vue-the-mask'))
 /**
  * SweetAlert
  */
-Vue.use(() => import('vue-swal'))
+import VueSweetalert2 from 'vue-sweetalert2';
+
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+const options = {
+    confirmButtonColor: '#D0D0D0',
+    cancelButtonColor: '#38c172',
+    confirmButtonText: 'confirmar',
+    cancelButtonText: 'cancelar',
+    showCancelButton: true,
+};
+
+Vue.use(VueSweetalert2, options);
 
 /**
  * Vue Bootstrap

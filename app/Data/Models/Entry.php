@@ -49,7 +49,7 @@ class Entry extends Model
     ];
 
     protected $selectColumnsRaw = [
-        '(select count(*) from entry_documents ed where ed.entry_id = entries.id :published-at-filter:) as documents_count',
+        '(select count(*) from entry_documents ed where ed.entry_id = entries.id :published-at-filter: :analysed-at-filter:) as documents_count',
         '(select count(*) from entry_documents ed where ed.entry_id = entries.id and ed.verified_at is null :published-at-filter:) > 0 as missing_verification',
         '(select count(*) from entry_documents ed where ed.entry_id = entries.id and ed.analysed_at is null :published-at-filter:) > 0 as missing_analysis'
     ];
@@ -142,5 +142,10 @@ class Entry extends Model
     public function congressman()
     {
         return $this->congressmanBudget->congressman();
+    }
+
+    public function isVerifiable()
+    {
+        return blank($this->congressmanBudget->closed_at);
     }
 }

@@ -31,3 +31,9 @@ export function getUpdateUrl(state, getters, rootState) {
         return buildApiUrl(state.service.uri, rootState)
     }
 }
+
+export function getSelected(state, getters) {
+    if (state.selected) {
+        return state.selected
+    }
+}

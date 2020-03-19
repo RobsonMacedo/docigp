@@ -129,6 +129,7 @@ let actions = merge_objects(actionsMixin, {
 })
 
 let mutations = mutationsMixin
+
 let getters = merge_objects(gettersMixin, {
     currentSummaryLabel(state, getters) {
         if (!!state.selected.id) {
@@ -141,6 +142,265 @@ let getters = merge_objects(gettersMixin, {
             )
         } else {
             return ''
+        }
+    },
+
+    getSelectedState: (state, getters) => {
+        return getters.getEntryState(getters.getSelected)
+    },
+
+    getEntryState: (state, getters, rootState, rootGetters) => entry => {
+        const congressmanBudgetClosedAt =
+            rootGetters['congressmanBudgets/selectedClosedAt']
+
+        const closedTitle = 'O orçamento mensal está fechado'
+
+        if (entry.published_at) {
+            return {
+                name: 'Publicável',
+                buttons: {
+                    unpublish: {
+                        visible: can('entries:publish'),
+                        disabled: !can('entries:publish'),
+                        title: 'Remover do Portal da Transparência',
+                    },
+                    publish: {
+                        visible: false,
+                        disabled: true,
+                        title:
+                            'O lançamento já está publicado no Portal da Transparência',
+                    },
+                    unanalyse: {
+                        visible: can('entries:analyse'),
+                        disabled: true,
+                        title:
+                            "Não é possível cancelar marcação de 'analisado' pois o lançamento está publicado",
+                    },
+                    analyse: {
+                        visible: false,
+                        disabled: true,
+                        title: 'O lançamento já está analisado',
+                    },
+                    unverify: {
+                        visible:
+                            can('entries:buttons') || can('entries:verify'),
+                        disabled: true,
+                        title: !congressmanBudgetClosedAt
+                            ? 'Não é possível cancelar a marcação de verificado pois o documento está publicado'
+                            : closedTitle,
+                    },
+                    verify: {
+                        visible: false,
+                        disabled: true,
+                        title: !congressmanBudgetClosedAt
+                            ? 'O lançamento já está verificado'
+                            : closedTitle,
+                    },
+                    edit: {
+                        visible:
+                            can('entries:buttons') || can('entries:update'),
+                        disabled: !can('entries:buttons'),
+                        title: can('entries:update')
+                            ? !congressmanBudgetClosedAt
+                                ? 'Não é possível alterar o lançamento pois ele já está publicado'
+                                : closedTitle
+                            : 'Visualizar lançamento',
+                    },
+                    delete: {
+                        visible:
+                            can('entries:buttons') || can('entries:delete'),
+                        disabled:
+                            !can('entries:delete') ||
+                            entry.analysed_at ||
+                            entry.verified_at,
+                        title: !congressmanBudgetClosedAt
+                            ? 'Não é possível apagar o lançamento pois ele já está publicado'
+                            : closedTitle,
+                    },
+                },
+            }
+        } else if (entry.analysed_at) {
+            return {
+                name: 'Analisado',
+                buttons: {
+                    unpublish: {
+                        visible: false,
+                        disabled: false,
+                        title: 'Remover do Portal da Transparência',
+                    },
+                    publish: {
+                        visible: can('entries:publish'),
+                        disabled: !can('entries:publish'),
+                        title:
+                            'Publicar o lançamento no Portal da Transparência',
+                    },
+                    unanalyse: {
+                        visible: can('entries:analyse'),
+                        disabled: !can('entries:analyse'),
+                        title: "Cancelar marcação de 'analisado'",
+                    },
+                    analyse: {
+                        visible: false,
+                        disabled: true,
+                        title: 'O lançamento já está analisado',
+                    },
+                    unverify: {
+                        visible:
+                            can('entries:buttons') || can('entries:verify'),
+                        disabled: true,
+                        title: !congressmanBudgetClosedAt
+                            ? 'Não é possível cancelar a marcação de verificado pois o documento está analisado'
+                            : closedTitle,
+                    },
+                    verify: {
+                        visible: false,
+                        disabled: true,
+                        title: !congressmanBudgetClosedAt
+                            ? 'O lançamento já está verificado'
+                            : closedTitle,
+                    },
+                    edit: {
+                        visible:
+                            can('entries:buttons') || can('entries:update'),
+                        disabled: !can('entries:buttons'),
+                        title: can('entries:update')
+                            ? !congressmanBudgetClosedAt
+                                ? 'Não é possível alterar o lançamento pois ele já está analisado'
+                                : closedTitle
+                            : 'Visualizar lançamento',
+                    },
+                    delete: {
+                        visible:
+                            can('entries:buttons') || can('entries:delete'),
+                        disabled: true,
+                        title: !congressmanBudgetClosedAt
+                            ? 'Não é possível apagar o lançamento pois ele já está analisado'
+                            : closedTitle,
+                    },
+                },
+            }
+        } else if (entry.verified_at) {
+            return {
+                name: 'Verificado',
+                buttons: {
+                    unpublish: {
+                        visible: false,
+                        disabled: false,
+                        title: 'Remover do Portal da Transparência',
+                    },
+                    publish: {
+                        visible: can('entries:publish'),
+                        disabled: true,
+                        title:
+                            'Não é possível publicar o lançamento pois ele não está analisado',
+                    },
+                    unanalyse: {
+                        visible: false,
+                        disabled: true,
+                        title: "Cancelar marcação de 'analisado'",
+                    },
+                    analyse: {
+                        visible: can('entries:analyse'),
+                        disabled: !can('entries:analyse'),
+                        title: "Marcar orçamento como 'analisado'",
+                    },
+                    unverify: {
+                        visible:
+                            can('entries:buttons') || can('entries:verify'),
+                        disabled:
+                            !can('entries:verify') || congressmanBudgetClosedAt,
+                        title: !congressmanBudgetClosedAt
+                            ? "Cancelar marcação de 'verificado'"
+                            : closedTitle,
+                    },
+                    verify: {
+                        visible: false,
+                        disabled: true,
+                        title: !congressmanBudgetClosedAt
+                            ? 'O lançamento já está verificado'
+                            : closedTitle,
+                    },
+                    edit: {
+                        visible:
+                            can('entries:buttons') || can('entries:update'),
+                        disabled: !can('entries:buttons'),
+                        title: can('entries:update')
+                            ? !congressmanBudgetClosedAt
+                                ? 'Não é possível alterar o lançamento pois ele já está verificado'
+                                : closedTitle
+                            : 'Visualizar lançamento',
+                    },
+                    delete: {
+                        visible:
+                            can('entries:buttons') || can('entries:delete'),
+                        disabled: true,
+                        title: !congressmanBudgetClosedAt
+                            ? 'Não é possível apagar o lançamento pois ele já está verificado'
+                            : closedTitle,
+                    },
+                },
+            }
+        } else {
+            return {
+                name: 'Salvo',
+                buttons: {
+                    unpublish: {
+                        visible: false,
+                        disabled: false,
+                        title: 'Remover do Portal da Transparência',
+                    },
+                    publish: {
+                        visible: can('entries:publish'),
+                        disabled: true,
+                        title:
+                            'Não é possível publicar o lançamento pois ele não está analisado',
+                    },
+                    unanalyse: {
+                        visible: false,
+                        disabled: true,
+                        title: "Cancelar marcação de 'analisado'",
+                    },
+                    analyse: {
+                        visible: can('entries:analyse'),
+                        disabled: true,
+                        title:
+                            'Não é possível analisar o lançamento pois ele não está verificado',
+                    },
+                    unverify: {
+                        visible: false,
+                        disabled: true,
+                        title: "'Cancelar marcação de 'verificado'",
+                    },
+                    verify: {
+                        visible:
+                            can('entries:buttons') || can('entries:verify'),
+                        disabled:
+                            !can('entries:verify') || congressmanBudgetClosedAt,
+                        title: !congressmanBudgetClosedAt
+                            ? "Marcar orçamento como 'verificado'"
+                            : closedTitle,
+                    },
+                    edit: {
+                        visible:
+                            can('entries:buttons') || can('entries:update'),
+                        disabled: false,
+                        title: can('entries:update')
+                            ? !congressmanBudgetClosedAt
+                                ? 'Editar lançamento'
+                                : closedTitle
+                            : 'Visualizar lançamento',
+                    },
+                    delete: {
+                        visible:
+                            can('entries:buttons') || can('entries:delete'),
+                        disabled:
+                            congressmanBudgetClosedAt || !can('entries:delete'),
+                        title: !congressmanBudgetClosedAt
+                            ? 'Apagar lançamento'
+                            : closedTitle,
+                    },
+                },
+            }
         }
     },
 })

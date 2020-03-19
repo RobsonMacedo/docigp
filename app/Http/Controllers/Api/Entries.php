@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\EntryAnalyse;
+use App\Http\Requests\EntryDelete;
+use App\Http\Requests\EntryPublish;
 use App\Http\Requests\EntryStore;
 use App\Http\Requests\EntryUpdate;
 use App\Http\Controllers\Controller;
 use App\Data\Repositories\Entries as EntriesRepository;
+use App\Http\Requests\EntryVerify;
 
 class Entries extends Controller
 {
@@ -24,38 +28,66 @@ class Entries extends Controller
         );
     }
 
-    public function verify($congressmanId, $congressmanBudgetId, $entryId)
-    {
+    public function verify(
+        EntryVerify $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId
+    ) {
         app(EntriesRepository::class)->verify($entryId);
     }
 
-    public function unverify($congressmanId, $congressmanBudgetId, $entryId)
-    {
+    public function unverify(
+        EntryVerify $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId
+    ) {
         app(EntriesRepository::class)->unverify($entryId);
     }
 
-    public function analyse($congressmanId, $congressmanBudgetId, $entryId)
-    {
+    public function analyse(
+        EntryAnalyse $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId
+    ) {
         app(EntriesRepository::class)->analyse($entryId);
     }
 
-    public function unanalyse($congressmanId, $congressmanBudgetId, $entryId)
-    {
+    public function unanalyse(
+        EntryAnalyse $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId
+    ) {
         app(EntriesRepository::class)->unanalyse($entryId);
     }
 
-    public function publish($congressmanId, $congressmanBudgetId, $entryId)
-    {
+    public function publish(
+        EntryPublish $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId
+    ) {
         app(EntriesRepository::class)->publish($entryId);
     }
 
-    public function unpublish($congressmanId, $congressmanBudgetId, $entryId)
-    {
+    public function unpublish(
+        EntryPublish $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId
+    ) {
         app(EntriesRepository::class)->unpublish($entryId);
     }
 
-    public function delete($congressmanId, $congressmanBudgetId, $entryId)
-    {
+    public function delete(
+        EntryDelete $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId
+    ) {
         app(EntriesRepository::class)->delete($entryId);
     }
 

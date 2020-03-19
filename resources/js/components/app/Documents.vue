@@ -45,6 +45,10 @@
                     ),
                 }"
             >
+                <!--                <td class="align-middle">-->
+                <!--                    {{ getEntryDocumentState(document).name }}-->
+                <!--                </td>-->
+
                 <td class="align-middle">
                     {{ document.attached_file.original_name }}
                 </td>
@@ -82,82 +86,113 @@
                 <td class="align-middle text-right">
                     <button
                         v-if="
-                            (can('entry-documents:buttons') ||
-                                can('entry-documents:verify')) &&
-                                !document.verified_at
+                            getEntryDocumentState(document).buttons.verify
+                                .visible
                         "
-                        :disabled="!can('entry-documents:verify')"
+                        :disabled="
+                            getEntryDocumentState(document).buttons.verify
+                                .disabled
+                        "
                         class="btn btn-sm btn-micro btn-primary"
                         @click="verify(document)"
-                        title="Marcar como verificado"
+                        :title="
+                            getEntryDocumentState(document).buttons.verify.title
+                        "
                     >
                         <i class="fa fa-check"></i> verificar
                     </button>
 
                     <button
                         v-if="
-                            (can('entry-documents:buttons') ||
-                                can('entry-documents:verify')) &&
-                                document.verified_at
+                            getEntryDocumentState(document).buttons.unverify
+                                .visible
                         "
-                        :disabled="!can('entry-documents:verify')"
+                        :disabled="
+                            getEntryDocumentState(document).buttons.unverify
+                                .disabled
+                        "
                         class="btn btn-sm btn-micro btn-warning"
                         @click="unverify(document)"
-                        title="Cancelar verificação"
+                        :title="
+                            getEntryDocumentState(document).buttons.unverify
+                                .title
+                        "
                     >
                         <i class="fa fa-ban"></i> verificação
                     </button>
 
                     <button
                         v-if="
-                            can('entry-documents:analyse') &&
-                                !document.analysed_at &&
-                                document.verified_at
+                            getEntryDocumentState(document).buttons.analyse
+                                .visible
+                        "
+                        :disabled="
+                            getEntryDocumentState(document).buttons.analyse
+                                .disabled
                         "
                         class="btn btn-sm btn-micro btn-primary"
                         @click="analyse(document)"
-                        title="Marcar orçamento como 'analisado'"
+                        :title="
+                            getEntryDocumentState(document).buttons.analyse
+                                .title
+                        "
                     >
                         <i class="fa fa-check"></i> analisado
                     </button>
 
                     <button
                         v-if="
-                            can('entry-documents:analyse') &&
-                                document.analysed_at
+                            getEntryDocumentState(document).buttons.unanalyse
+                                .visible
+                        "
+                        :disabled="
+                            getEntryDocumentState(document).buttons.unanalyse
+                                .disabled
                         "
                         class="btn btn-sm btn-micro btn-danger"
                         @click="unanalyse(document)"
-                        title="Cancelar status de 'analisado'"
+                        :title="
+                            getEntryDocumentState(document).buttons.unanalyse
+                                .title
+                        "
                     >
                         <i class="fa fa-ban"></i> analisado
                     </button>
 
                     <button
                         v-if="
-                            (can('entry-documents:buttons') ||
-                                can('entry-documents:publish')) &&
-                                !document.published_at &&
-                                document.verified_at
+                            getEntryDocumentState(document).buttons.publish
+                                .visible
                         "
-                        :disabled="!can('entry-documents:publish')"
+                        :disabled="
+                            getEntryDocumentState(document).buttons.publish
+                                .disabled
+                        "
                         class="btn btn-sm btn-micro btn-danger"
                         @click="publish(document)"
-                        title="Marcar como 'publicável'"
+                        :title="
+                            getEntryDocumentState(document).buttons.publish
+                                .title
+                        "
                     >
                         <i class="fa fa-check"></i> tornar público
                     </button>
 
                     <button
                         v-if="
-                            (can('entry-documents:buttons') ||
-                                can('entry-documents:publish')) &&
-                                document.published_at
+                            getEntryDocumentState(document).buttons.unpublish
+                                .visible
                         "
-                        :disabled="!can('entry-documents:publish')"
+                        :disabled="
+                            getEntryDocumentState(document).buttons.unpublish
+                                .disabled
+                        "
                         class="btn btn-sm btn-micro btn-success"
                         @click="unpublish(document)"
-                        title="Remover autorização de publicação"
+                        :title="
+                            getEntryDocumentState(document).buttons.unpublish
+                                .title
+                        "
                     >
                         <i class="fa fa-ban"></i> tornar privado
                     </button>
@@ -173,18 +208,18 @@
 
                     <button
                         v-if="
-                            can('entry-documents:buttons') ||
-                                can('entry-documents:delete')
+                            getEntryDocumentState(document).buttons.delete
+                                .visible
                         "
                         :disabled="
-                            !can('entry-documents:delete') ||
-                                document.analysed_at ||
-                                document.published_at ||
-                                congressmanBudgetsClosedAt
+                            getEntryDocumentState(document).buttons.delete
+                                .disabled
                         "
                         class="btn btn-sm btn-micro btn-danger"
                         @click="trash(document)"
-                        title="Deletar documento"
+                        :title="
+                            getEntryDocumentState(document).buttons.delete.title
+                        "
                     >
                         <i class="fa fa-trash"></i>
                     </button>
@@ -225,6 +260,7 @@ export default {
     computed: {
         ...mapGetters({
             congressmanBudgetsClosedAt: 'congressmanBudgets/selectedClosedAt',
+            getEntryDocumentState: 'entryDocuments/getEntryDocumentState',
         }),
 
         // return this.$store.dispatch('congressmanBudgets/changePercentage', {
@@ -265,68 +301,82 @@ export default {
         },
 
         trash(document) {
-            confirm('Deseja realmente DELETAR este documento?', this).then(
-                value => {
-                    value &&
-                        this.$store.dispatch('entryDocuments/delete', document)
-                },
-            )
+            this.$swal({
+                title: 'Deseja realmente DELETAR este documento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/delete', document)
+                }
+            })
         },
 
         verify(entry) {
-            confirm(
-                'Confirma a marcação deste lançamento como "VERIFICADO"?',
-                this,
-            ).then(value => {
-                value && this.$store.dispatch('entryDocuments/verify', entry)
+            this.$swal({
+                title:
+                    'Confirma a marcação deste lançamento como "VERIFICADO"?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/verify', entry)
+                }
             })
         },
 
         unverify(entry) {
-            confirm(
-                'O status de "VERIFICADO" será removido deste lançamento, confirma?',
-                this,
-            ).then(value => {
-                value && this.$store.dispatch('entryDocuments/unverify', entry)
+            this.$swal({
+                title:
+                    'O status de "VERIFICADO" será removido deste lançamento, confirma?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/unverify', entry)
+                }
             })
         },
 
         analyse(document) {
-            confirm('Este documento foi ANALISADO?', this).then(value => {
-                value &&
+            this.$swal({
+                title: 'Este documento foi ANALISADO?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch('entryDocuments/analyse', document)
+                }
             })
         },
 
         unanalyse(document) {
-            confirm(
-                'Deseja remover o status "ANALISADO" deste lançamento?',
-                this,
-            ).then(value => {
-                value &&
+            this.$swal({
+                title: 'Deseja remover o status "ANALISADO" deste lançamento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch('entryDocuments/unanalyse', document)
+                }
             })
         },
 
         publish(document) {
-            confirm('Confirma a PUBLICAÇÃO deste documento?', this).then(
-                value => {
-                    value &&
-                        this.$store.dispatch('entryDocuments/publish', document)
-                },
-            )
+            this.$swal({
+                title: 'Confirma a PUBLICAÇÃO deste documento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/publish', document)
+                }
+            })
         },
 
         unpublish(document) {
-            confirm('Confirma a DESPUBLICAÇÃO deste documento?', this)
-                .then(this)
-                .then(value => {
-                    value &&
-                        this.$store.dispatch(
-                            'entryDocuments/unpublish',
-                            document,
-                        )
-                })
+            this.$swal({
+                title: 'Confirma a DESPUBLICAÇÃO deste documento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/unpublish', document)
+                }
+            })
         },
 
         createDocument() {
