@@ -378,55 +378,81 @@ export default {
         },
 
         trash(entry) {
-            confirm('Deseja realmente DELETAR este lançamento?', this).then(
-                value => {
-                    value && this.$store.dispatch('entries/delete', entry)
-                },
-            )
+            this.$swal({
+                title: 'Deseja realmente DELETAR este lançamento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entries/delete', entry)
+                }
+            })
         },
 
         verify(entry) {
-            confirm(
-                'Confirma a marcação deste lançamento como "VERIFICADO"?',
-                this,
-            ).then(value => {
-                value && this.$store.dispatch('entries/verify', entry)
+            this.$swal({
+                title:
+                    'Confirma a marcação deste lançamento como "VERIFICADO"?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entries/verify', entry)
+                }
             })
         },
 
         unverify(entry) {
-            confirm(
-                'O status de "VERIFICADO" será removido deste lançamento, confirma?',
-                this,
-            ).then(value => {
-                value && this.$store.dispatch('entries/unverify', entry)
+            this.$swal({
+                title:
+                    'O status de "VERIFICADO" será removido deste lançamento, confirma?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entries/unverify', entry)
+                }
             })
         },
 
         analyse(entry) {
-            confirm('Este lançamento foi ANALISADO?', this).then(value => {
-                value && this.$store.dispatch('entries/analyse', entry)
+            this.$swal({
+                title: 'Este lançamento foi ANALISADO?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entries/analyse', entry)
+                }
             })
         },
 
         unanalyse(entry) {
-            confirm(
-                'Deseja remover o status "ANALISADO" deste lançamento?',
-                this,
-            ).then(value => {
-                value && this.$store.dispatch('entries/unanalyse', entry)
+            this.$swal({
+                title: 'Deseja remover o status "ANALISADO" deste lançamento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entries/unanalyse', entry)
+                }
             })
         },
 
         publish(entry) {
-            confirm('Publicar este lançamento??', this).then(value => {
-                value && this.$store.dispatch('entries/publish', entry)
+            this.$swal({
+                title: 'Publicar este lançamento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entries/publish', entry)
+                }
             })
         },
 
         unpublish(entry) {
-            confirm('Despublicar este lançamento?', this).then(value => {
-                value && this.$store.dispatch('entries/unpublish', entry)
+            this.$swal({
+                title: 'Despublicar este lançamento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entries/unpublish', entry)
+                }
             })
         },
 

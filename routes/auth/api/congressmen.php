@@ -153,6 +153,11 @@ Route::group(['prefix' => '/congressmen'], function () {
                         );
 
                         Route::group(['prefix' => '/{commentId}'], function () {
+
+                            Route::post('/', 'EntryComments@update')->name(
+                                'congressmen.budgets.entries-comments.update'
+                            );
+
                             Route::post(
                                 '/delete',
                                 'EntryComments@delete'

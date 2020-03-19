@@ -44,5 +44,7 @@
         "webpack-dev-server": "^3.10.3",
         "webpack-livereload-plugin": "^1.2.0"
     },
-    "dependencies": {}
+    "dependencies": {
+        "vue-sweetalert2": "^3.0.3"
+    }
 }

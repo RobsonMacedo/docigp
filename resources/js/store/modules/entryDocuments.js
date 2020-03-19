@@ -126,11 +126,9 @@ let getters = merge_objects(gettersMixin, {
                         visible:
                             can('entry-documents:buttons') ||
                             can('entry-documents:verify'),
-                        disabled:
-                            !can('entry-documents:verify') ||
-                            congressmanBudgetClosedAt,
+                        disabled: true,
                         title: !congressmanBudgetClosedAt
-                            ? "Cancelar marcação de 'verificado'"
+                            ? 'Não é possível cancelar a verificação pois o documento está analisado'
                             : closedTitle,
                     },
                     verify: {

@@ -301,68 +301,82 @@ export default {
         },
 
         trash(document) {
-            confirm('Deseja realmente DELETAR este documento?', this).then(
-                value => {
-                    value &&
-                        this.$store.dispatch('entryDocuments/delete', document)
-                },
-            )
+            this.$swal({
+                title: 'Deseja realmente DELETAR este documento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/delete', document)
+                }
+            })
         },
 
         verify(entry) {
-            confirm(
-                'Confirma a marcação deste lançamento como "VERIFICADO"?',
-                this,
-            ).then(value => {
-                value && this.$store.dispatch('entryDocuments/verify', entry)
+            this.$swal({
+                title:
+                    'Confirma a marcação deste lançamento como "VERIFICADO"?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/verify', entry)
+                }
             })
         },
 
         unverify(entry) {
-            confirm(
-                'O status de "VERIFICADO" será removido deste lançamento, confirma?',
-                this,
-            ).then(value => {
-                value && this.$store.dispatch('entryDocuments/unverify', entry)
+            this.$swal({
+                title:
+                    'O status de "VERIFICADO" será removido deste lançamento, confirma?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/unverify', entry)
+                }
             })
         },
 
         analyse(document) {
-            confirm('Este documento foi ANALISADO?', this).then(value => {
-                value &&
+            this.$swal({
+                title: 'Este documento foi ANALISADO?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch('entryDocuments/analyse', document)
+                }
             })
         },
 
         unanalyse(document) {
-            confirm(
-                'Deseja remover o status "ANALISADO" deste lançamento?',
-                this,
-            ).then(value => {
-                value &&
+            this.$swal({
+                title: 'Deseja remover o status "ANALISADO" deste lançamento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch('entryDocuments/unanalyse', document)
+                }
             })
         },
 
         publish(document) {
-            confirm('Confirma a PUBLICAÇÃO deste documento?', this).then(
-                value => {
-                    value &&
-                        this.$store.dispatch('entryDocuments/publish', document)
-                },
-            )
+            this.$swal({
+                title: 'Confirma a PUBLICAÇÃO deste documento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/publish', document)
+                }
+            })
         },
 
         unpublish(document) {
-            confirm('Confirma a DESPUBLICAÇÃO deste documento?', this)
-                .then(this)
-                .then(value => {
-                    value &&
-                        this.$store.dispatch(
-                            'entryDocuments/unpublish',
-                            document,
-                        )
-                })
+            this.$swal({
+                title: 'Confirma a DESPUBLICAÇÃO deste documento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch('entryDocuments/unpublish', document)
+                }
+            })
         },
 
         createDocument() {

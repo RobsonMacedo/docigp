@@ -228,7 +228,7 @@ class CongressmanBudget extends Model
             'object' => 'Crédito em conta-corrente',
             'cost_center_id' => Constants::COST_CENTER_CREDIT_ID,
             'entry_type_id' => Constants::ENTRY_TYPE_ALERJ_DEPOSIT_ID,
-            'date' => now(),
+            'date' => $this->budget->date->startOfMonth() ?? now(),
             'value' => $this->value
         ]);
     }

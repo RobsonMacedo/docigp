@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tests\Browser\Pages;
-
 
 use App\Data\Models\User;
 use App\Data\Repositories\CostCenters;
@@ -10,7 +8,6 @@ use App\Support\Constants;
 use Faker\Generator as Faker;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
-
 
 class CostCentersTest extends DuskTestCase
 {
@@ -22,20 +19,31 @@ class CostCentersTest extends DuskTestCase
     private static $randomCostsCenter;
     private static $administrator;
 
-
     public function createAdminstrator()
     {
-        static::$administrator = factory(User::class, Constants::ROLE_ADMINISTRATOR)->raw();
+        static::$administrator = factory(
+            User::class,
+            Constants::ROLE_ADMINISTRATOR
+        )->raw();
     }
 
     public function init()
     {
         $faker = app(Faker::class);
-        static::$nomeCentrosdeCusto = only_letters_and_space(app(Faker::class)->name);
-        static::$codigoCentrosdeCusto = only_numbers(app(Faker::class)->numberBetween(0, 1000));
-        static::$codigoduperiorCentrosdeCusto = only_numbers(app(Faker::class)->numberBetween(0, 1000));
-        static::$limiteCentrosdeCusto = only_numbers(app(Faker::class)->numberBetween(0, 100));
-        static::$revogadoCentrosdeCusto = only_numbers(app(Faker::class)->year(2019));
+        static::$nomeCentrosdeCusto = only_letters_and_space(
+            app(Faker::class)->name
+        );
+        static::$codigoCentrosdeCusto = only_numbers(
+            app(Faker::class)->numberBetween(0, 1000)
+        );
+        static::$codigoduperiorCentrosdeCusto = only_numbers(
+            app(Faker::class)->numberBetween(0, 1000)
+        );
+        static::$limiteCentrosdeCusto = only_numbers(
+            app(Faker::class)->numberBetween(0, 100)
+        );
+        static::$revogadoCentrosdeCusto = $this->randomDate();
+
         static::$randomCostsCenter = app(CostCenters::class)
             ->randomElement()
             ->toArray();
@@ -51,12 +59,20 @@ class CostCentersTest extends DuskTestCase
         $codigoB = static::$codigoduperiorCentrosdeCusto;
         $frequenciaA = $frequencia[array_rand($frequencia, 1)];
         $limiteA = static::$limiteCentrosdeCusto;
-        $revogadoA = static:: $revogadoCentrosdeCusto;
+        $revogadoA = static::$revogadoCentrosdeCusto;
         $administrator = static::$administrator;
 
-
-        $this->browse(function (Browser $browser) use ($nomeA, $codigoA, $codigoB, $frequenciaA, $limiteA, $revogadoA, $administrator) {
-            $browser->loginAs($administrator['id'])
+        $this->browse(function (Browser $browser) use (
+            $nomeA,
+            $codigoA,
+            $codigoB,
+            $frequenciaA,
+            $limiteA,
+            $revogadoA,
+            $administrator
+        ) {
+            $browser
+                ->loginAs($administrator['id'])
                 ->visit('admin/cost-centers#/')
                 ->assertSee('Novo')
                 ->press('#novo')
@@ -66,7 +82,7 @@ class CostCentersTest extends DuskTestCase
                 ->type('#frequency', $frequenciaA)
                 ->type('#limit', $limiteA)
                 ->press('#can_accumulate')
-                ->type('#revoked_at', $revogadoA)
+                ->type('#revoked_at', $revogadoA->format('d/m/Y'))
                 ->press('Gravar')
                 ->assertSee($nomeA);
         });
@@ -74,11 +90,11 @@ class CostCentersTest extends DuskTestCase
 
     public function testValidation()
     {
-
         $administrator = static::$administrator;
 
         $this->browse(function (Browser $browser) use ($administrator) {
-            $browser->loginAs($administrator['id'])
+            $browser
+                ->loginAs($administrator['id'])
                 ->visit('admin/cost-centers#/')
                 ->clickLink('Novo')
                 ->press('Gravar')
@@ -94,14 +110,19 @@ class CostCentersTest extends DuskTestCase
         $randomCostsCenter1 = static::$randomCostsCenter;
         $administrator = static::$administrator;
 
-        $this->browse(function (Browser $browser) use ($nomeA,$randomCostsCenter1,$administrator){
-            $browser->loginAs($administrator['id'])
+        $this->browse(function (Browser $browser) use (
+            $nomeA,
+            $randomCostsCenter1,
+            $administrator
+        ) {
+            $browser
+                ->loginAs($administrator['id'])
                 ->visit('admin/entry-types/' . $randomCostsCenter1['id'] . '#/')
                 ->click('#vue-editButton')
                 ->type('#name', '*' . $nomeA . '*')
+                ->screenshot('asdasd')
                 ->press('Gravar')
                 ->assertSee('*' . $nomeA . '*');
-
         });
     }
 
@@ -110,7 +131,8 @@ class CostCentersTest extends DuskTestCase
         $administrator = static::$administrator;
 
         $this->browse(function (Browser $browser) use ($administrator) {
-            $browser->loginAs($administrator['id'])
+            $browser
+                ->loginAs($administrator['id'])
                 ->visit('admin/cost-centers#/')
                 ->type('@search-input', '1323e12312vcxvdsf413543445654')
                 ->click('@search-button')
@@ -126,16 +148,17 @@ class CostCentersTest extends DuskTestCase
         $randomCostCenters1 = static::$randomCostsCenter;
         $administrator = static::$administrator;
 
-        $this->browse(function (Browser $browser) use ($randomCostCenters1,$administrator) {
-            $browser->loginAs($administrator['id'])
+        $this->browse(function (Browser $browser) use (
+            $randomCostCenters1,
+            $administrator
+        ) {
+            $browser
+                ->loginAs($administrator['id'])
                 ->visit('admin/cost-centers#/')
-                ->type('@search-input',$randomCostCenters1['name'])
+                ->type('@search-input', $randomCostCenters1['name'])
                 ->click('@search-button')
                 ->assertSee($randomCostCenters1['code'])
                 ->screenshot('CostCenters-rightsearch');
         });
     }
-
 }
-
-

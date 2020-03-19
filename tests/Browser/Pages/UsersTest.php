@@ -5,14 +5,14 @@ namespace Tests\Browser\Pages;
 use App\Data\Models\User;
 use App\Data\Repositories\Users;
 use App\Support\Constants;
-use Faker\Generator as Faker;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
+use Faker\Generator as Faker;
+use Silber\Bouncer\Database\Role as BouncerRole;
 
 class UsersTest extends DuskTestCase
 {
-    private static $emailUsuarios;
-    private static $nomeUsuarios;
+    private static $usersRaw;
     private static $randomUsers;
     private static $administrator;
 
@@ -26,11 +26,7 @@ class UsersTest extends DuskTestCase
 
     public function init()
     {
-        $faker = app(Faker::class);
-        static::$emailUsuarios = only_letters_and_space(
-            app(Faker::class)->firstName
-        );
-        static::$nomeUsuarios = only_letters_and_space(app(Faker::class)->name);
+        static::$usersRaw = factory(User::class)->raw();
         static::$randomUsers = app(Users::class)
             ->randomElement()
             ->toArray();
@@ -40,30 +36,14 @@ class UsersTest extends DuskTestCase
     {
         $this->createAdminstrator();
         $this->init();
-        $nomeA = static::$nomeUsuarios;
-        $emailA = static::$emailUsuarios . '@alerj.rj.gov.br';
-        $roles = [
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '10',
-            '11',
-            '12',
-            '13'
-        ];
-        $rolesA = $roles[array_rand($roles, 1)];
+        $user = static::$usersRaw;
+        $allRoles = BouncerRole::all();
+        $selectedRole = app(Faker::class)->randomElement($allRoles);
         $administrator = static::$administrator;
 
         $this->browse(function (Browser $browser) use (
-            $nomeA,
-            $emailA,
-            $rolesA,
+            $selectedRole,
+            $user,
             $administrator
         ) {
             $browser
@@ -71,39 +51,28 @@ class UsersTest extends DuskTestCase
                 ->visit('admin/users#/')
                 ->assertSee('Novo')
                 ->press('#novo')
-                ->type('#email', $emailA)
-                ->type('#name', $nomeA)
-                ->select('#all-roles', $rolesA)
+                ->type('#email', $user['email'])
+                ->type('#name', $user['name'])
+                ->select('#all-roles', $selectedRole['id'])
                 ->press('#add-profile-button')
+                ->screenshot('verificaçao')
                 ->press('Gravar')
-                ->assertSee($nomeA)
-                ->assertSee($rolesA)
-                ->assertSee($emailA);
+                ->assertSee($user['name'])
+                ->assertSee($selectedRole['id'])
+                ->assertSee($user['email']);
         });
+        $user = User::where('email', $user['email'])->first();
+        $this->assertTrue($user->isAn($selectedRole['id']));
     }
 
     public function testValidation()
     {
         $administrator = static::$administrator;
-        $roles = [
-            'Administrador',
-            'Chefe',
-            'Gestor',
-            'Assessor',
-            'Operador',
-            'Verificador',
-            'ACI',
-            'Assistente',
-            'Funcionário',
-            'Publicador',
-            'Visualizador',
-            'Financeiro'
-        ];
-        $rolesA = array_rand($roles, 1);
+        $allRoles = BouncerRole::all();
+        $selectedRole = app(Faker::class)->randomElement($allRoles);
 
         $this->browse(function (Browser $browser) use (
-            $roles,
-            $rolesA,
+            $selectedRole,
             $administrator
         ) {
             $browser
@@ -112,9 +81,9 @@ class UsersTest extends DuskTestCase
                 ->visit('admin/users#/')
                 ->assertSee('Novo')
                 ->press('#novo')
-                ->select('#all-roles', $rolesA)
+                ->select('#all-roles', $selectedRole['id'])
                 ->press('#add-profile-button')
-                ->waitFor('#assigned-roles', $rolesA)
+                ->waitFor('#assigned-roles', $selectedRole['id'])
                 ->press('Gravar')
                 ->assertSee('O campo e-mail é obrigatório.')
                 ->assertSee('O campo nome é obrigatório.');
@@ -123,12 +92,12 @@ class UsersTest extends DuskTestCase
     public function testAlter()
     {
         $this->init();
-        $nomeA = static::$nomeUsuarios;
+        $user = static::$usersRaw;
         $randomUsers1 = static::$randomUsers;
         $administrator = static::$administrator;
 
         $this->browse(function (Browser $browser) use (
-            $nomeA,
+            $user,
             $randomUsers1,
             $administrator
         ) {
@@ -136,9 +105,9 @@ class UsersTest extends DuskTestCase
                 ->loginAs($administrator['id'])
                 ->visit('admin/users/show/' . $randomUsers1['id'] . '#/')
                 ->click('#vue-editButton')
-                ->type('#name', '*' . $nomeA . '*')
+                ->type('#name', '*' . $user['name'] . '*')
                 ->press('Gravar')
-                ->assertSee('*' . $nomeA . '*');
+                ->assertSee('*' . $user['name'] . '*');
         });
     }
     public function testWrongSearch()
@@ -152,10 +121,8 @@ class UsersTest extends DuskTestCase
                 ->type('@search-input', '1323e12312vcxvdsf413543445654')
                 ->click('@search-button')
                 ->waitForText('Nenhum Usuário encontrado.')
-                ->screenshot(
-                    'Users-wrongsearch'
-                )->assertSee('Nenhum Usuário encontrado.
-');
+                ->screenshot('Users-wrongsearch')
+                ->assertSee('Nenhum Usuário encontrado.');
         });
     }
 

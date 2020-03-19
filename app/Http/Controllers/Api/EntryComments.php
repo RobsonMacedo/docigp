@@ -45,6 +45,20 @@ class EntryComments extends Controller
             ->store();
     }
 
+    public function update(
+        EntryCommentStore $request,
+        $congressmanId,
+        $congressmanBudgetId,
+        $entryId,
+        $entryCommentId
+    ) {
+        return app(EntryCommentsRepository::class)
+            ->setEntryId($entryId)
+            ->setData($request->all())
+            ->update($entryCommentId);
+    }
+
+
     public function delete(
         $congressmanId,
         $congressmanBudgetId,

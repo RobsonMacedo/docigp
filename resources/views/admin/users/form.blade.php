@@ -47,6 +47,12 @@
                                 </div>
                             </div>
 
+                            @if ($errors->has('name'))
+                                <div class="alert alert-danger" role="alert">
+                                    {{ $errors->first('name') }}
+                                </div>
+                            @endif
+
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="name">Nome</label>

@@ -380,132 +380,145 @@ export default {
         },
 
         editPercentage(congressmanBudget) {
-            return input('Novo percentual', this).then(value => {
-                if (!value) {
-                    return
+            this.$swal({
+                icon: 'warning',
+                title: 'Novo percentual',
+                input: 'text',
+                inputPlaceholder: 'Digite um percentual',
+                inputAttributes: {
+                    dusk: 'input-percentage',
+                },
+                inputValidator: value => {
+                    if (
+                        !is_number(value) ||
+                        to_number(value) < 0 ||
+                        to_number(value) > 100
+                    ) {
+                        return 'Você precisa digitar um número entre 0 e 100'
+                    }
+                },
+            }).then(value => {
+                if (value.value) {
+                    this.changePercentage(congressmanBudget, value.value)
                 }
-
-                if (
-                    !is_number(value) ||
-                    to_number(value) < 0 ||
-                    to_number(value) > 100
-                ) {
-                    return show_message(
-                        'Você precisa digitar um número entre 0 e 100',
-                        this,
-                        'error',
-                    )
-                }
-
-                return this.changePercentage(congressmanBudget, value)
             })
         },
 
         close(congressmanBudget) {
-            confirm(
-                'Deseja realmente FECHAR este orçamento mensal?',
-                this,
-            ).then(value => {
-                value &&
+            this.$swal({
+                title: 'Deseja realmente FECHAR este orçamento mensal?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch(
                         'congressmanBudgets/close',
                         congressmanBudget,
                     )
+                }
             })
         },
 
         reopen(congressmanBudget) {
-            confirm(
-                'Deseja realmente REABRIR este orçamento mensal?',
-                this,
-            ).then(value => {
-                value &&
+            this.$swal({
+                title: 'Deseja realmente REABRIR este orçamento mensal?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch(
                         'congressmanBudgets/reopen',
                         congressmanBudget,
                     )
+                }
             })
         },
 
         analyse(congressmanBudget) {
-            confirm('Este orçamento mensal foi ANALISADO?', this).then(
-                value => {
-                    value &&
-                        this.$store.dispatch(
-                            'congressmanBudgets/analyse',
-                            congressmanBudget,
-                        )
-                },
-            )
+            this.$swal({
+                title: 'Este orçamento mensal foi ANALISADO?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch(
+                        'congressmanBudgets/analyse',
+                        congressmanBudget,
+                    )
+                }
+            })
         },
 
         unanalyse(congressmanBudget) {
-            confirm(
-                'Deseja remover o status "ANALISADO" deste lançamento?',
-                this,
-            ).then(value => {
-                value &&
+            this.$swal({
+                title: 'Deseja remover o status "ANALISADO" deste lançamento?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch(
                         'congressmanBudgets/unanalyse',
                         congressmanBudget,
                     )
+                }
             })
         },
 
         publish(congressmanBudget) {
-            confirm('Confirma a PUBLICAÇÃO deste orçamento mensal?', this).then(
-                value => {
-                    value &&
-                        this.$store.dispatch(
-                            'congressmanBudgets/publish',
-                            congressmanBudget,
-                        )
-                },
-            )
+            this.$swal({
+                title: 'Confirma a PUBLICAÇÃO deste orçamento mensal?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
+                    this.$store.dispatch(
+                        'congressmanBudgets/publish',
+                        congressmanBudget,
+                    )
+                }
+            })
         },
 
         unpublish(congressmanBudget) {
-            confirm(
-                'Confirma a DESPUBLICAÇÃO deste orçamento mensal?',
-                this,
-            ).then(value => {
-                value &&
+            this.$swal({
+                title: 'Confirma a DESPUBLICAÇÃO deste orçamento mensal?',
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch(
                         'congressmanBudgets/unpublish',
                         congressmanBudget,
                     )
+                }
             })
         },
 
         deposit(congressmanBudget) {
-            confirm(
-                'Confirma o depósito de ' +
+            this.$swal({
+                title:
+                    'Confirma o depósito de ' +
                     congressmanBudget.value_formatted +
                     ' na conta de ' +
                     this.congressmen.selected.name +
                     '?',
-                this,
-            ).then(value => {
-                value &&
+                icon: 'warning',
+            }).then(result => {
+                if (result.value) {
                     this.$store.dispatch(
                         'congressmanBudgets/deposit',
                         congressmanBudget,
                     )
+                }
             })
         },
 
-        createRefund(congressmanBudget) {
-            this.$store
-                .dispatch(
-                    'congressmanBudgets/selectCongressmanBudget',
-                    congressmanBudget,
-                )
-                .then(
-                    this.$store
-                        .dispatch('entries/fillFormForRefund')
-                        .then(() => (this.showModal = true)),
-                )
-        },
+        // createRefund(congressmanBudget) {
+        //     this.$store
+        //         .dispatch(
+        //             'congressmanBudgets/selectCongressmanBudget',
+        //             congressmanBudget,
+        //         )
+        //         .then(
+        //             this.$store
+        //                 .dispatch('entries/fillFormForRefund')
+        //                 .then(() => (this.showModal = true)),
+        //         )
+        // },
     },
 
     computed: {
