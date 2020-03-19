@@ -136,7 +136,7 @@ class Entry extends Model
 
     public static function enableGlobalScopes()
     {
-        PublishedScope::disable();
+        PublishedScope::enable();
     }
 
     public function congressman()
