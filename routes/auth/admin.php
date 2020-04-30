@@ -4,9 +4,14 @@ Route::group(
     [
         'prefix' => '/admin',
         'namespace' => 'Web\Admin',
-        'middleware' => ['auth'], //, 'app.users'],
+        'middleware' => ['auth'] //, 'app.users'],
     ],
     function () {
+        Route::get('/phpinfo', function () {
+            phpinfo();
+            die();
+        });
+
         require __DIR__ . '/web/home.php';
         require __DIR__ . '/web/legislatures.php';
         require __DIR__ . '/web/parties.php';
