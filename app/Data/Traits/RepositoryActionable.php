@@ -6,7 +6,7 @@ trait RepositoryActionable
 {
     public function publish($modelId)
     {
-        $this->findById($modelId)->publish();
+        return $this->findById($modelId)->publish();
     }
 
     public function unpublish($modelId)

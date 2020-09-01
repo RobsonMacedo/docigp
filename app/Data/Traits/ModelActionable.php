@@ -64,6 +64,8 @@ trait ModelActionable
             'published_at' => now(),
             'published_by_id' => auth()->user()->id
         ]);
+
+        return $this;
     }
 
     public function unpublish($save = true)

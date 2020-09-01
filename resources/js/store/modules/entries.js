@@ -108,7 +108,7 @@ let actions = merge_objects(actionsMixin, {
     },
 
     publish(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/publish')
+        return post(makeDataUrl(context) + '/' + payload.id + '/publish')
     },
 
     unpublish(context, payload) {

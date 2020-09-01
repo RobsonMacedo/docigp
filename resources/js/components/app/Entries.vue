@@ -54,8 +54,6 @@
                     'bg-primary-lighter text-white': isCurrent(entry, selected),
                 }"
             >
-                <!--                <td class="align-middle">{{ getEntryState(entry).name }}</td>-->
-
                 <td class="align-middle">{{ entry.date_formatted }}</td>
 
                 <td class="align-middle">
@@ -212,17 +210,21 @@
                             <i class="fa fa-ban"></i> analisado
                         </button>
 
-                        <button
+                        <app-action-button
                             v-if="getEntryState(entry).buttons.publish.visible"
                             :disabled="
                                 getEntryState(entry).buttons.publish.disabled
                             "
-                            class="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-micro btn-danger"
                             :title="getEntryState(entry).buttons.publish.title"
-                            @click="publish(entry)"
+                            :model="entry"
+                            swal-title="Publicar este lançamento?"
+                            label="publicar"
+                            icon="fa fa-check"
+                            store="entries"
+                            method="publish"
                         >
-                            <i class="fa fa-check"></i> publicar
-                        </button>
+                        </app-action-button>
 
                         <button
                             v-if="
@@ -464,17 +466,6 @@ export default {
             }).then(result => {
                 if (result.value) {
                     this.$store.dispatch('entries/unanalyse', entry)
-                }
-            })
-        },
-
-        publish(entry) {
-            this.$swal({
-                title: 'Publicar este lançamento?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch('entries/publish', entry)
                 }
             })
         },

@@ -70,7 +70,7 @@ class Entries extends Controller
         $congressmanBudgetId,
         $entryId
     ) {
-        app(EntriesRepository::class)->publish($entryId);
+        return app(EntriesRepository::class)->publish($entryId);
     }
 
     public function unpublish(

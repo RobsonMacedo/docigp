@@ -13,6 +13,16 @@ export function mutateSetData(state, payload) {
     }
 }
 
+export function mutateSetDataRow(state, payload) {
+    var entry = findById(state.data, payload.id)
+
+    _.each(entry, (value, key) => {
+        if (payload.hasOwnProperty(key)) {
+            entry[key] = payload[key]
+        }
+    })
+}
+
 export function mutateSetQuery(state, payload) {
     state.query = payload
 }
