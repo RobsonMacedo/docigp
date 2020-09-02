@@ -1,6 +1,7 @@
 require('./admin')
 require('./entries')
 require('./users')
+require('./audits')
 
 require('./parties')
 require('./providers')

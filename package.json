@@ -42,6 +42,8 @@
     "dependencies": {
         "laravel-mix": "^5.0.4",
         "sass-loader": "^8.0.2",
+        "sweetalert2": "^9.17.1",
+        "vue-spinner": "^1.0.4",
         "vue-sweetalert2": "^3.0.3",
         "webpack": "^4.43.0",
         "webpack-dev-server": "^3.11.0",

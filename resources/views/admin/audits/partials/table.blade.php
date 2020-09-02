@@ -18,6 +18,7 @@
             <th>Url</th>
             <th>IP</th>
             <th>Data de modificação</th>
+            <th>Data do último login</th>
         </tr>
     </thead>
 
@@ -37,6 +38,9 @@
             </td>
             <td>
                 {{ $audit->formatted_created_at }}
+            </td>
+            <td>
+                {{ $audit->user->last_login_at ?? ''}}
             </td>
         </tr>
     @empty
