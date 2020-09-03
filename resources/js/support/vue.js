@@ -9,6 +9,11 @@ window.Vuex = require('vuex')
  */
 Vue.use(() => import('vue-the-mask'))
 
+// ClipLoader
+Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default)
+
+// PulseLoader
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default)
 /**
  * SweetAlert
  */

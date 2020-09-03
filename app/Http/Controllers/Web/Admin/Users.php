@@ -7,6 +7,10 @@ use App\Data\Repositories\Users as UsersRepository;
 use App\Http\Requests\UserStore as UserStoreRequest;
 use App\Http\Requests\UserUpdate as UserUpdateRequest;
 use App\Services\Authentication\Service as AuthenticationService;
+use Illuminate\Http\Request;
+
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Users extends Controller
 {
@@ -20,6 +24,16 @@ class Users extends Controller
      *
      * @param UsersRepository $usersRepository
      */
+
+    public function export(Request $request)
+    {
+        set_time_limit(0);
+        return Excel::download(new UsersExport($request->data_ini, $request->data_fim), 'users.csv');
+    }
+
+
+
+
     public function __construct(UsersRepository $usersRepository)
     {
         $this->usersRepository = $usersRepository;
