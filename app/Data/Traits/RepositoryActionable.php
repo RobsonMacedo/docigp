@@ -11,37 +11,37 @@ trait RepositoryActionable
 
     public function unpublish($modelId)
     {
-        $this->findById($modelId)->unpublish();
+        return $this->findById($modelId)->unpublish();
     }
 
     public function close($modelId)
     {
-        $this->findById($modelId)->close();
+        return $this->findById($modelId)->close();
     }
 
     public function reopen($modelId)
     {
-        $this->findById($modelId)->reopen();
+        return $this->findById($modelId)->reopen();
     }
 
     public function analyse($modelId)
     {
-        $this->findById($modelId)->analyse();
+        return $this->findById($modelId)->analyse();
     }
 
     public function unanalyse($modelId)
     {
-        $this->findById($modelId)->unanalyse();
+        return $this->findById($modelId)->unanalyse();
     }
 
     public function verify($entryId)
     {
-        $this->findById($entryId)->verify();
+        return $this->findById($entryId)->verify();
     }
 
     public function unverify($entryId)
     {
-        $this->findById($entryId)->unverify();
+        return $this->findById($entryId)->unverify();
     }
 
     public function delete($entryId)

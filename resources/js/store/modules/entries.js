@@ -92,19 +92,19 @@ let actions = merge_objects(actionsMixin, {
     },
 
     verify(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/verify')
+        return post(makeDataUrl(context) + '/' + payload.id + '/verify')
     },
 
     unverify(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/unverify')
+        return post(makeDataUrl(context) + '/' + payload.id + '/unverify')
     },
 
     analyse(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/analyse')
+        return post(makeDataUrl(context) + '/' + payload.id + '/analyse')
     },
 
     unanalyse(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/unanalyse')
+        return post(makeDataUrl(context) + '/' + payload.id + '/unanalyse')
     },
 
     publish(context, payload) {
@@ -112,11 +112,11 @@ let actions = merge_objects(actionsMixin, {
     },
 
     unpublish(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/unpublish')
+        return post(makeDataUrl(context) + '/' + payload.id + '/unpublish')
     },
 
     delete(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/delete')
+       post(makeDataUrl(context) + '/' + payload.id + '/delete')
     },
 
     fillFormForRefund(context) {

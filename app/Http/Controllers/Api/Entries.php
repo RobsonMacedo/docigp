@@ -34,7 +34,7 @@ class Entries extends Controller
         $congressmanBudgetId,
         $entryId
     ) {
-        app(EntriesRepository::class)->verify($entryId);
+        return app(EntriesRepository::class)->verify($entryId);
     }
 
     public function unverify(
@@ -43,7 +43,7 @@ class Entries extends Controller
         $congressmanBudgetId,
         $entryId
     ) {
-        app(EntriesRepository::class)->unverify($entryId);
+        return app(EntriesRepository::class)->unverify($entryId);
     }
 
     public function analyse(
@@ -52,7 +52,7 @@ class Entries extends Controller
         $congressmanBudgetId,
         $entryId
     ) {
-        app(EntriesRepository::class)->analyse($entryId);
+        return app(EntriesRepository::class)->analyse($entryId);
     }
 
     public function unanalyse(
@@ -61,7 +61,7 @@ class Entries extends Controller
         $congressmanBudgetId,
         $entryId
     ) {
-        app(EntriesRepository::class)->unanalyse($entryId);
+        return app(EntriesRepository::class)->unanalyse($entryId);
     }
 
     public function publish(
@@ -79,7 +79,7 @@ class Entries extends Controller
         $congressmanBudgetId,
         $entryId
     ) {
-        app(EntriesRepository::class)->unpublish($entryId);
+        return app(EntriesRepository::class)->unpublish($entryId);
     }
 
     public function delete(

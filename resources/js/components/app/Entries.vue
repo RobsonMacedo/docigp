@@ -158,57 +158,75 @@
 
                 <td class="align-middle text-right">
                     <div>
-                        <button
+
+                        <app-action-button
                             v-if="getEntryState(entry).buttons.verify.visible"
                             :disabled="
                                 getEntryState(entry).buttons.verify.disabled
                             "
                             class="btn btn-sm btn-micro btn-primary"
-                            @click="verify(entry)"
                             :title="getEntryState(entry).buttons.verify.title"
-                        >
-                            <i class="fa fa-check"></i> verificar
-                        </button>
+                            :model="entry"
+                            swal-title="Verificar este lançamento?"
+                            label="verificar"
+                            icon="fa fa-check"
+                            store="entries"
+                            method="verify"
+                        > 
+                        </app-action-button>
 
-                        <button
+
+
+                        <app-action-button
                             v-if="getEntryState(entry).buttons.unverify.visible"
                             :disabled="
                                 getEntryState(entry).buttons.unverify.disabled
                             "
                             class="btn btn-sm btn-micro btn-warning"
-                            @click="unverify(entry)"
                             :title="getEntryState(entry).buttons.unverify.title"
-                        >
-                            <i class="fa fa-ban"></i> verificação
-                        </button>
+                            :model="entry"
+                            swal-title="Remover verificação deste lançamento?"
+                            label="verificado"
+                            icon="fa fa-ban"
+                            store="entries"
+                            method="unverify"
+                        > 
+                        </app-action-button>
 
-                        <button
+
+
+                        <app-action-button
                             v-if="getEntryState(entry).buttons.analyse.visible"
                             :disabled="
                                 getEntryState(entry).buttons.analyse.disabled
                             "
                             class="btn btn-sm btn-micro btn-success"
-                            @click="analyse(entry)"
                             :title="getEntryState(entry).buttons.analyse.title"
-                        >
-                            <i class="fa fa-check"></i> analisado
-                        </button>
+                            :model="entry"
+                            swal-title="Analisar este lançamento?"
+                            label="analisar"
+                            icon="fa fa-check"
+                            store="entries"
+                            method="analyse"
+                        > 
+                        </app-action-button>
 
-                        <button
-                            v-if="
-                                getEntryState(entry).buttons.unanalyse.visible
-                            "
+                        <app-action-button
+                            v-if="getEntryState(entry).buttons.unanalyse.visible"
                             :disabled="
                                 getEntryState(entry).buttons.unanalyse.disabled
                             "
                             class="btn btn-sm btn-micro btn-danger"
-                            @click="unanalyse(entry)"
-                            :title="
-                                getEntryState(entry).buttons.unanalyse.title
-                            "
-                        >
-                            <i class="fa fa-ban"></i> analisado
-                        </button>
+                            :title="getEntryState(entry).buttons.unanalyse.title"
+                            :model="entry"
+                            swal-title="Remover análise deste lançamento?"
+                            label="analisado"
+                            icon="fa fa-ban"
+                            store="entries"
+                            method="unanalyse"
+                        > 
+                        </app-action-button>
+
 
                         <app-action-button
                             v-if="getEntryState(entry).buttons.publish.visible"
@@ -223,25 +241,25 @@
                             icon="fa fa-check"
                             store="entries"
                             method="publish"
-                        >
+                        > 
                         </app-action-button>
 
-                        <button
-                            v-if="
-                                getEntryState(entry).buttons.unpublish.visible
-                            "
+                        <app-action-button
+                            v-if="getEntryState(entry).buttons.unpublish.visible"
                             :disabled="
                                 getEntryState(entry).buttons.unpublish.disabled
                             "
                             class="btn btn-sm btn-micro btn-danger"
-                            :title="
-                                getEntryState(entry).buttons.unpublish.title
-                            "
-                            @click="unpublish(entry)"
-                        >
-                            <i class="fa fa-ban"></i> despublicar
-                        </button>
-
+                            :title="getEntryState(entry).buttons.unpublish.title"
+                            :model="entry"
+                            swal-title="Despublicar este lançamento?"
+                            label="despublicar"
+                            icon="fa fa-ban"
+                            store="entries"
+                            method="unpublish"
+                        > 
+                        </app-action-button>
+                       
                         <button
                             v-if="getEntryState(entry).buttons.edit.visible"
                             :disabled="
@@ -424,62 +442,6 @@ export default {
             })
         },
 
-        verify(entry) {
-            this.$swal({
-                title:
-                    'Confirma a marcação deste lançamento como "VERIFICADO"?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch('entries/verify', entry)
-                }
-            })
-        },
-
-        unverify(entry) {
-            this.$swal({
-                title:
-                    'O status de "VERIFICADO" será removido deste lançamento, confirma?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch('entries/unverify', entry)
-                }
-            })
-        },
-
-        analyse(entry) {
-            this.$swal({
-                title: 'Este lançamento foi ANALISADO?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch('entries/analyse', entry)
-                }
-            })
-        },
-
-        unanalyse(entry) {
-            this.$swal({
-                title: 'Deseja remover o status "ANALISADO" deste lançamento?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch('entries/unanalyse', entry)
-                }
-            })
-        },
-
-        unpublish(entry) {
-            this.$swal({
-                title: 'Despublicar este lançamento?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch('entries/unpublish', entry)
-                }
-            })
-        },
 
         createEntry() {
             if (filled(this.form.id)) {

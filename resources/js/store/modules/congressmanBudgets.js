@@ -88,34 +88,35 @@ let actions = merge_objects(actionsMixin, {
         }
     },
 
-    changePercentage(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.congressmanBudget.id, {
+    changePercentage(context, payload) { 
+        console.log(makeDataUrl(context))
+        return post(makeDataUrl(context) + '/' + payload.congressmanBudget.id, {
             percentage: payload.percentage,
         })
     },
 
     close(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/close')
+        return post(makeDataUrl(context) + '/' + payload.id + '/close')
     },
 
     reopen(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/reopen')
+        return post(makeDataUrl(context) + '/' + payload.id + '/reopen')
     },
 
     analyse(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/analyse')
+        return post(makeDataUrl(context) + '/' + payload.id + '/analyse')
     },
 
     unanalyse(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/unanalyse')
+        return post(makeDataUrl(context) + '/' + payload.id + '/unanalyse')
     },
 
     publish(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/publish')
+        return post(makeDataUrl(context) + '/' + payload.id + '/publish')
     },
 
     unpublish(context, payload) {
-        post(makeDataUrl(context) + '/' + payload.id + '/unpublish')
+        return post(makeDataUrl(context) + '/' + payload.id + '/unpublish')
     },
 
     deposit(context, payload) {
