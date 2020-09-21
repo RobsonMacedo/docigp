@@ -79,7 +79,40 @@ export default {
                                         icon: 'success',
                                         title: 'Salvo com sucesso',
                                     })
-                                })
+                                }).catch(error => {
+                                var title = ''
+                            switch (error.response.status) {
+                                case 404: 
+                                    title = 'Pagina não encontrada'
+                                    break
+                                case 401: 
+                                    title = 'Ação não autorizada'
+                                    break
+                                case 422: 
+                                    title = 'Verifique as informações'
+                                    break    
+                                case 403: 
+                                    title = 'Ação não autorizada'
+                                    break
+                                case 500: 
+                                    title = 'Erro interno - Administradores já foram contactados'
+                                    break
+                                default:
+                                    title = 'Ocorreu um erro'
+                            }
+
+                            $this.loading = false
+
+                            $this.$swal({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton:false,
+                                showCancelButton:false,
+                                timer: 2000,
+                                icon:'error',
+                                title: title
+                        })
+                    })
                 }
             })
         },
