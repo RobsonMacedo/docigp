@@ -53,7 +53,6 @@ export default {
                         $this.loading = true
                             $this.$store.dispatch($this.store + '/' + $this.method, model)
                             .then(response => {
-                                console.log(response)
                                 $this.loading = false
 
                                 this.$store.commit(
