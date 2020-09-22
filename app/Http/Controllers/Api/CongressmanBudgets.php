@@ -71,7 +71,7 @@ class CongressmanBudgets extends Controller
         $congressmanId,
         $congressmanBudgetId
     ) {
-        app(CongressmanBudgetsRepository::class)->close($congressmanBudgetId);
+        return app(CongressmanBudgetsRepository::class)->close($congressmanBudgetId);
     }
 
     public function reopen(
@@ -79,7 +79,7 @@ class CongressmanBudgets extends Controller
         $congressmanId,
         $congressmanBudgetId
     ) {
-        app(CongressmanBudgetsRepository::class)->reopen($congressmanBudgetId);
+        return app(CongressmanBudgetsRepository::class)->reopen($congressmanBudgetId);
     }
 
     public function analyse(
@@ -87,7 +87,7 @@ class CongressmanBudgets extends Controller
         $congressmanId,
         $congressmanBudgetId
     ) {
-        app(CongressmanBudgetsRepository::class)->analyse($congressmanBudgetId);
+        return app(CongressmanBudgetsRepository::class)->analyse($congressmanBudgetId);
     }
 
     public function unanalyse(
@@ -95,7 +95,7 @@ class CongressmanBudgets extends Controller
         $congressmanId,
         $congressmanBudgetId
     ) {
-        app(CongressmanBudgetsRepository::class)->unanalyse(
+        return app(CongressmanBudgetsRepository::class)->unanalyse(
             $congressmanBudgetId
         );
     }
@@ -105,7 +105,7 @@ class CongressmanBudgets extends Controller
         $congressmanId,
         $congressmanBudgetId
     ) {
-        app(CongressmanBudgetsRepository::class)->publish($congressmanBudgetId);
+        return app(CongressmanBudgetsRepository::class)->publish($congressmanBudgetId);
     }
 
     public function unpublish(
@@ -113,7 +113,7 @@ class CongressmanBudgets extends Controller
         $congressmanId,
         $congressmanBudgetId
     ) {
-        app(CongressmanBudgetsRepository::class)->unpublish(
+        return app(CongressmanBudgetsRepository::class)->unpublish(
             $congressmanBudgetId
         );
     }

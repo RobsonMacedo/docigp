@@ -12,6 +12,7 @@ trait ModelActionable
             'verified_at' => now(),
             'verified_by_id' => auth()->user()->id
         ]);
+        return $this;
     }
 
     public function unverify()
@@ -22,6 +23,7 @@ trait ModelActionable
         $this->unanalyse(false);
 
         $this->save();
+        return $this;
     }
 
     public function isAnalysable()
@@ -36,6 +38,7 @@ trait ModelActionable
             'analysed_at' => now(),
             'analysed_by_id' => auth()->user()->id
         ]);
+        return $this;
     }
 
     public function unanalyse($save = true)
@@ -46,10 +49,12 @@ trait ModelActionable
         if (!$this instanceof EntryDocument) {
             $this->unpublish(false);
         }
-
+    
         if ($save) {
             $this->save();
         }
+
+        return $this;
     }
 
     public function isPublishable()
@@ -64,6 +69,8 @@ trait ModelActionable
             'published_at' => now(),
             'published_by_id' => auth()->user()->id
         ]);
+
+        return $this;
     }
 
     public function unpublish($save = true)
@@ -74,6 +81,7 @@ trait ModelActionable
         if ($save) {
             $this->save();
         }
+        return $this;
     }
 
     public function close()
@@ -82,6 +90,7 @@ trait ModelActionable
             'closed_at' => now(),
             'closed_by_id' => auth()->user()->id
         ]);
+        return $this;
     }
 
     public function reopen()
@@ -90,5 +99,6 @@ trait ModelActionable
             'closed_at' => null,
             'closed_by_id' => auth()->user()->id
         ]);
+        return $this;
     }
 }

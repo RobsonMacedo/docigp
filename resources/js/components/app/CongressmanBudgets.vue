@@ -145,138 +145,116 @@
                         <i class="fa fa-dollar-sign"></i> depositar
                     </button>
 
-                    <button
-                        v-if="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .editPercentage.visible
-                        "
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .editPercentage.disabled
-                        "
-                        @click="editPercentage(congressmanBudget)"
-                        class="btn btn-sm btn-micro btn-primary"
-                        :title="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .editPercentage.title
-                        "
-                    >
-                        <i class="fa fa-edit"></i> percentual
-                    </button>
+                    <app-percentage-button
+                            v-if="getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.visible"
+                            :disabled="
+                                getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.disabled
+                            "
+                            classes="btn btn-sm btn-micro btn-primary"
+                            :title="getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.title"
+                            :model="congressmanBudget"
+                            label="percentual"
+                            icon="fa fa-edit"
+                            store="congressmanBudgets"
+                            method="editPercentage"
+                        > 
+                    </app-percentage-button>
 
-                    <button
-                        v-if="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .close.visible
-                        "
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .close.disabled
-                        "
-                        class="btn btn-sm btn-micro btn-danger"
-                        :title="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .close.title
-                        "
-                        @click="close(congressmanBudget)"
-                    >
-                        <i class="fa fa-ban"></i> fechar
-                    </button>
+                    <app-action-button
+                            v-if="getCongressmanBudgetState(congressmanBudget).buttons.close.visible"
+                            :disabled="
+                                getCongressmanBudgetState(congressmanBudget).buttons.close.disabled
+                            "
+                            classes="btn btn-sm btn-micro btn-danger"
+                            :title="getCongressmanBudgetState(congressmanBudget).buttons.close.title"
+                            :model="congressmanBudget"
+                            swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
+                            label="fechar"
+                            icon="fa fa-ban"
+                            store="congressmanBudgets"
+                            method="close"
+                        > 
+                    </app-action-button>
 
-                    <button
-                        v-if="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .reopen.visible
-                        "
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .reopen.disabled
-                        "
-                        class="btn btn-sm btn-micro btn-danger"
-                        :title="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .reopen.title
-                        "
-                        @click="reopen(congressmanBudget)"
-                    >
-                        <i class="fa fa-check"></i> reabrir
-                    </button>
+                    <app-action-button
+                            v-if="getCongressmanBudgetState(congressmanBudget).buttons.reopen.visible"
+                            :disabled="
+                                getCongressmanBudgetState(congressmanBudget).buttons.reopen.disabled
+                            "
+                            classes="btn btn-sm btn-micro btn-danger"
+                            :title="getCongressmanBudgetState(congressmanBudget).buttons.reopen.title"
+                            :model="congressmanBudget"
+                            swal-title="Deseja REABRIR esse Orçamento Mensal?"
+                            label="reabrir"
+                            icon="fa fa-ban"
+                            store="congressmanBudgets"
+                            method="reopen"
+                        > 
+                    </app-action-button>
 
-                    <button
-                        v-if="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .analyse.visible
-                        "
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .analyse.disabled
-                        "
-                        class="btn btn-sm btn-micro btn-warning"
-                        :title="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .analyse.title
-                        "
-                        @click="analyse(congressmanBudget)"
-                    >
-                        <i class="fa fa-check"></i> analisado
-                    </button>
+                    <app-action-button
+                            v-if="getCongressmanBudgetState(congressmanBudget).buttons.analyse.visible"
+                            :disabled="
+                                getCongressmanBudgetState(congressmanBudget).buttons.analyse.disabled
+                            "
+                            classes="btn btn-sm btn-micro btn-warning"
+                            :title="getCongressmanBudgetState(congressmanBudget).buttons.analyse.title"
+                            :model="congressmanBudget"
+                            swal-title="Esse Orçamento mensal foi ANALISADO?"
+                            label="analisar"
+                            icon="fa fa-check"
+                            store="congressmanBudgets"
+                            method="analyse"
+                        > 
+                    </app-action-button>
 
-                    <button
-                        v-if="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .unanalyse.visible
-                        "
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .unanalyse.disabled
-                        "
-                        class="btn btn-sm btn-micro btn-warning"
-                        :title="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .unanalyse.title
-                        "
-                        @click="unanalyse(congressmanBudget)"
-                    >
-                        <i class="fa fa-ban"></i> analisado
-                    </button>
+                    <app-action-button
+                            v-if="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.visible"
+                            :disabled="
+                                getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.disabled
+                            "
+                            classes="btn btn-sm btn-micro btn-warning"
+                            :title="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.title"
+                            :model="congressmanBudget"
+                            swal-title="Deseja remover o status ANALISADO deste lançamento?"
+                            label="analisado"
+                            icon="fa fa-ban"
+                            store="congressmanBudgets"
+                            method="unanalyse"
+                        > 
+                    </app-action-button>
 
-                    <button
-                        v-if="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .publish.visible
-                        "
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .publish.disabled
-                        "
-                        class="btn btn-sm btn-micro btn-danger"
-                        :title="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .publish.title
-                        "
-                        @click="publish(congressmanBudget)"
-                    >
-                        <i class="fa fa-check"></i> publicar
-                    </button>
+                    <app-action-button
+                            v-if="getCongressmanBudgetState(congressmanBudget).buttons.publish.visible"
+                            :disabled="
+                                getCongressmanBudgetState(congressmanBudget).buttons.publish.disabled
+                            "
+                            classes="btn btn-sm btn-micro btn-danger"
+                            :title="getCongressmanBudgetState(congressmanBudget).buttons.publish.title"
+                            :model="congressmanBudget"
+                            swal-title="Confirma a PUBLICAÇÃO deste Orçamento Mensal?"
+                            label="publicar"
+                            icon="fa fa-check"
+                            store="congressmanBudgets"
+                            method="publish"
+                        > 
+                    </app-action-button>
 
-                    <button
-                        v-if="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .unpublish.visible
-                        "
-                        :disabled="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .unpublish.disabled
-                        "
-                        class="btn btn-sm btn-micro btn-danger"
-                        :title="
-                            getCongressmanBudgetState(congressmanBudget).buttons
-                                .unpublish.title
-                        "
-                        @click="unpublish(congressmanBudget)"
-                    >
-                        <i class="fa fa-ban"></i> despublicar
-                    </button>
+                    <app-action-button
+                            v-if="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.visible"
+                            :disabled="
+                                getCongressmanBudgetState(congressmanBudget).buttons.unpublish.disabled
+                            "
+                            classes="btn btn-sm btn-micro btn-danger"
+                            :title="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.title"
+                            :model="congressmanBudget"
+                            swal-title="Confirma a DESPUBLICAÇÃO deste Orçamento Mensal?"
+                            label="despublicar"
+                            icon="fa fa-ban"
+                            store="congressmanBudgets"
+                            method="unpublish"
+                        > 
+                    </app-action-button>
                 </td>
             </tr>
         </app-table>
@@ -370,123 +348,7 @@ export default {
 
         makeDate(congressmanBudget) {
             return congressmanBudget.year + ' / ' + congressmanBudget.month
-        },
-
-        changePercentage: function(congressmanBudget, value) {
-            return this.$store.dispatch('congressmanBudgets/changePercentage', {
-                congressmanBudget: congressmanBudget,
-                percentage: value,
-            })
-        },
-
-        editPercentage(congressmanBudget) {
-            this.$swal({
-                icon: 'warning',
-                title: 'Novo percentual',
-                input: 'text',
-                inputPlaceholder: 'Digite um percentual',
-                inputAttributes: {
-                    dusk: 'input-percentage',
-                },
-                inputValidator: value => {
-                    if (
-                        !is_number(value) ||
-                        to_number(value) < 0 ||
-                        to_number(value) > 100
-                    ) {
-                        return 'Você precisa digitar um número entre 0 e 100'
-                    }
-                },
-            }).then(value => {
-                if (value.value) {
-                    this.changePercentage(congressmanBudget, value.value)
-                }
-            })
-        },
-
-        close(congressmanBudget) {
-            this.$swal({
-                title: 'Deseja realmente FECHAR este orçamento mensal?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch(
-                        'congressmanBudgets/close',
-                        congressmanBudget,
-                    )
-                }
-            })
-        },
-
-        reopen(congressmanBudget) {
-            this.$swal({
-                title: 'Deseja realmente REABRIR este orçamento mensal?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch(
-                        'congressmanBudgets/reopen',
-                        congressmanBudget,
-                    )
-                }
-            })
-        },
-
-        analyse(congressmanBudget) {
-            this.$swal({
-                title: 'Este orçamento mensal foi ANALISADO?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch(
-                        'congressmanBudgets/analyse',
-                        congressmanBudget,
-                    )
-                }
-            })
-        },
-
-        unanalyse(congressmanBudget) {
-            this.$swal({
-                title: 'Deseja remover o status "ANALISADO" deste lançamento?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch(
-                        'congressmanBudgets/unanalyse',
-                        congressmanBudget,
-                    )
-                }
-            })
-        },
-
-        publish(congressmanBudget) {
-            this.$swal({
-                title: 'Confirma a PUBLICAÇÃO deste orçamento mensal?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch(
-                        'congressmanBudgets/publish',
-                        congressmanBudget,
-                    )
-                }
-            })
-        },
-
-        unpublish(congressmanBudget) {
-            this.$swal({
-                title: 'Confirma a DESPUBLICAÇÃO deste orçamento mensal?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch(
-                        'congressmanBudgets/unpublish',
-                        congressmanBudget,
-                    )
-                }
-            })
-        },
+        },        
 
         deposit(congressmanBudget) {
             this.$swal({

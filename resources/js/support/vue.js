@@ -17,10 +17,10 @@ Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default
 /**
  * SweetAlert
  */
-import VueSweetalert2 from 'vue-sweetalert2';
+import VueSweetalert2 from 'vue-sweetalert2'
 
 // If you don't need the styles, do not connect
-import 'sweetalert2/dist/sweetalert2.min.css';
+import 'sweetalert2/dist/sweetalert2.min.css'
 
 const options = {
     confirmButtonColor: '#D0D0D0',
@@ -28,9 +28,14 @@ const options = {
     confirmButtonText: 'confirmar',
     cancelButtonText: 'cancelar',
     showCancelButton: true,
-};
+}
 
-Vue.use(VueSweetalert2, options);
+Vue.use(VueSweetalert2, options)
+// Loading ClipLoader
+Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue').default)
+
+// Loading PulseLoader
+Vue.component('pulse-loader', require('vue-spinner/src/PulseLoader.vue').default)
 
 /**
  * Vue Bootstrap
