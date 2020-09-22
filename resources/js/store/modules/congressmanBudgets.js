@@ -89,7 +89,6 @@ let actions = merge_objects(actionsMixin, {
     },
 
     changePercentage(context, payload) { 
-        console.log(makeDataUrl(context))
         return post(makeDataUrl(context) + '/' + payload.congressmanBudget.id, {
             percentage: payload.percentage,
         })
