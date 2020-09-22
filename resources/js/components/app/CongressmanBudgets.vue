@@ -150,7 +150,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.disabled
                             "
-                            class="btn btn-sm btn-micro btn-primary"
+                            classes="btn btn-sm btn-micro btn-primary"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.editPercentage.title"
                             :model="congressmanBudget"
                             label="percentual"
@@ -165,7 +165,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.close.disabled
                             "
-                            class="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-micro btn-danger"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.close.title"
                             :model="congressmanBudget"
                             swal-title="Deseja realmente FECHAR esse Orçamento Mensal?"
@@ -181,7 +181,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.reopen.disabled
                             "
-                            class="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-micro btn-danger"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.reopen.title"
                             :model="congressmanBudget"
                             swal-title="Deseja REABRIR esse Orçamento Mensal?"
@@ -197,7 +197,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.analyse.disabled
                             "
-                            class="btn btn-sm btn-micro btn-warning"
+                            classes="btn btn-sm btn-micro btn-warning"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.analyse.title"
                             :model="congressmanBudget"
                             swal-title="Esse Orçamento mensal foi ANALISADO?"
@@ -213,7 +213,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.disabled
                             "
-                            class="btn btn-sm btn-micro btn-warning"
+                            classes="btn btn-sm btn-micro btn-warning"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.unanalyse.title"
                             :model="congressmanBudget"
                             swal-title="Deseja remover o status ANALISADO deste lançamento?"
@@ -229,7 +229,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.publish.disabled
                             "
-                            class="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-micro btn-danger"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.publish.title"
                             :model="congressmanBudget"
                             swal-title="Confirma a PUBLICAÇÃO deste Orçamento Mensal?"
@@ -245,7 +245,7 @@
                             :disabled="
                                 getCongressmanBudgetState(congressmanBudget).buttons.unpublish.disabled
                             "
-                            class="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-micro btn-danger"
                             :title="getCongressmanBudgetState(congressmanBudget).buttons.unpublish.title"
                             :model="congressmanBudget"
                             swal-title="Confirma a DESPUBLICAÇÃO deste Orçamento Mensal?"

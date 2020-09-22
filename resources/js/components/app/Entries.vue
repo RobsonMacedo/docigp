@@ -164,7 +164,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.verify.disabled
                             "
-                            class="btn btn-sm btn-micro btn-primary"
+                            classes="btn btn-sm btn-micro btn-primary"
                             :title="getEntryState(entry).buttons.verify.title"
                             :model="entry"
                             swal-title="Verificar este lançamento?"
@@ -182,7 +182,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.unverify.disabled
                             "
-                            class="btn btn-sm btn-micro btn-warning"
+                            classes="btn btn-sm btn-micro btn-warning"
                             :title="getEntryState(entry).buttons.unverify.title"
                             :model="entry"
                             swal-title="Remover verificação deste lançamento?"
@@ -200,7 +200,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.analyse.disabled
                             "
-                            class="btn btn-sm btn-micro btn-success"
+                            classes="btn btn-sm btn-micro btn-success"
                             :title="getEntryState(entry).buttons.analyse.title"
                             :model="entry"
                             swal-title="Analisar este lançamento?"
@@ -216,7 +216,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.unanalyse.disabled
                             "
-                            class="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-micro btn-danger"
                             :title="getEntryState(entry).buttons.unanalyse.title"
                             :model="entry"
                             swal-title="Remover análise deste lançamento?"
@@ -249,7 +249,7 @@
                             :disabled="
                                 getEntryState(entry).buttons.unpublish.disabled
                             "
-                            class="btn btn-sm btn-micro btn-danger"
+                            classes="btn btn-sm btn-micro btn-danger"
                             :title="getEntryState(entry).buttons.unpublish.title"
                             :model="entry"
                             swal-title="Despublicar este lançamento?"
