@@ -71,7 +71,8 @@
                     <span v-if="entry.cpf_cnpj">
                         <br />
                         <small class="text-primary">
-                            {{ entry.cpf_cnpj }}
+                            {{ entry.cpf_cnpj }} 
+                            <b class='text-danger'> {{ entry.provider_is_blocked ? '- Bloqueado pelo DOCIGP': ''}} </b>
                         </small>
                     </span>
                 </td>

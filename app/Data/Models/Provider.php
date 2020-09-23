@@ -12,6 +12,7 @@ class Provider extends Model
         'name',
         'created_by_id',
         'updated_by_id',
+        'is_blocked'
     ];
 
     protected $orderBy = ['name' => 'asc'];
