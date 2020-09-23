@@ -51,6 +51,7 @@ class Entries extends Repository
         );
     }
 
+
     /**
      * @param mixed $congressmanBudgetId
      * @return \App\Data\Repositories\Entries
@@ -64,6 +65,7 @@ class Entries extends Repository
 
     public function transform($data)
     {
+        
         $this->addTransformationPlugin(function ($entry) {
             $entry['date_formatted'] = Carbon::parse($entry['date'])->format(
                 'd/m/Y'
@@ -93,7 +95,7 @@ class Entries extends Repository
                 : "{$entry['provider_type']}: {$entry['provider_cpf_cnpj']}";
 
             $entry['pendencies'] = $this->buildPendenciesArray($entry);
-
+            
             return $entry;
         });
 

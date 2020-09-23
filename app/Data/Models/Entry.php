@@ -49,7 +49,8 @@ class Entry extends Model
         'providers.name as provider_name',
         'providers.cpf_cnpj as provider_cpf_cnpj',
         'providers.type as provider_type',
-        'entry_types.name as entry_type_name'
+        'entry_types.name as entry_type_name',
+        'providers.is_blocked as provider_is_blocked'
     ];
 
     protected $selectColumnsRaw = [
