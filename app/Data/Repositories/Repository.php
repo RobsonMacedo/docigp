@@ -391,6 +391,13 @@ abstract class Repository
         }
     }
 
+    public function transformSingleRow($row)
+    {
+        $array = [];
+        $array[] = $row;
+        return $this->transform($array)[0];
+    }
+
     /**
      * Make pagination data.
      *

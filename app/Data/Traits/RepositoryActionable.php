@@ -26,12 +26,14 @@ trait RepositoryActionable
 
     public function analyse($modelId)
     {
-        return $this->findById($modelId)->analyse();
+        return $this->transformSingleRow($this->findById($modelId)->analyse());
     }
 
     public function unanalyse($modelId)
     {
-        return $this->findById($modelId)->unanalyse();
+        return $this->transformSingleRow(
+            $this->findById($modelId)->unanalyse()
+        );
     }
 
     public function verify($entryId)
