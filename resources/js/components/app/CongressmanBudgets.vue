@@ -1,4 +1,4 @@
-<template>
+<template> 
     <app-table-panel
         :title="'Orçamento mensal (' + pagination.total + ')'"
         titleCollapsed="Orçamento"
@@ -186,7 +186,7 @@
                             :model="congressmanBudget"
                             swal-title="Deseja REABRIR esse Orçamento Mensal?"
                             label="reabrir"
-                            icon="fa fa-ban"
+                            icon="fa fa-check"
                             store="congressmanBudgets"
                             method="reopen"
                         > 
@@ -205,6 +205,7 @@
                             icon="fa fa-check"
                             store="congressmanBudgets"
                             method="analyse"
+                            :spinner-config="{'color': 'black'}"
                         > 
                     </app-action-button>
 
@@ -221,6 +222,7 @@
                             icon="fa fa-ban"
                             store="congressmanBudgets"
                             method="unanalyse"
+                            :spinner-config="{'color': 'black'}"
                         > 
                     </app-action-button>
 

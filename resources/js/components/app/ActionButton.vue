@@ -8,8 +8,10 @@
         >
             <pulse-loader
                 v-if="loading"
-                color="white"
-                :loading="true" :size="'0.4em'"
+                :color="spinnerConfig.color ? spinnerConfig.color : 'white'"
+                :loading="true" 
+                :size="spinnerConfig.size ? spinnerConfig.size : '0.4em'"
+
             >
             </pulse-loader>
             <span v-else :class="icon"> {{label}}</span>
@@ -31,8 +33,11 @@ export default {
         'store',
         'method',
         'swal-title',
+        'spinner-config',
+        'swal-message'
+        
     ],
-
+    
     data() {
         return {
             loading: false,
@@ -54,7 +59,6 @@ export default {
                             $this.$store.dispatch($this.store + '/' + $this.method, model)
                             .then(response => {
                                 $this.loading = false
-
                                 this.$store.commit(
                                     $this.store + '/mutateSetDataRow',
                                     response.data,
@@ -67,7 +71,7 @@ export default {
                                     showCancelButton: false,
                                     timer: 2000,
                                     icon: 'success',
-                                    title: 'Salvo com sucesso',
+                                    title: $this.swalMessage?.r200 ?? 'Salvo com sucesso',
                                 })
                             }).catch(error => {
                                 var title = ''

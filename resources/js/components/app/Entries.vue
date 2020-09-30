@@ -191,6 +191,7 @@
                             icon="fa fa-ban"
                             store="entries"
                             method="unverify"
+                            :spinner-config="{'color': 'black'}"
                         > 
                         </app-action-button>
 
@@ -273,17 +274,24 @@
                             <i class="fa fa-edit"></i>
                         </button>
 
-                        <button
+                        <app-action-button
                             v-if="getEntryState(entry).buttons.delete.visible"
                             :disabled="
                                 getEntryState(entry).buttons.delete.disabled
                             "
-                            class="btn btn-sm btn-micro btn-danger"
-                            @click="trash(entry)"
+                            classes="btn btn-sm btn-micro btn-danger"
                             :title="getEntryState(entry).buttons.delete.title"
-                        >
-                            <i class="fa fa-trash"></i>
-                        </button>
+                            :model="entry"
+                            swal-title="Deseja realmente deletar este lançamento?"
+                            label=""
+                            icon="fa fa-trash"
+                            store="entries"
+                            method="delete"
+                            :spinner-config="{'size': '0.05em'}"
+                            :swal-message="{'r200': 'Deletado com sucesso'}"
+
+                        > 
+                        </app-action-button>
                     </div>
                 </td>
             </tr>
@@ -430,17 +438,6 @@ export default {
             columns.push('')
 
             return columns
-        },
-
-        trash(entry) {
-            this.$swal({
-                title: 'Deseja realmente DELETAR este lançamento?',
-                icon: 'warning',
-            }).then(result => {
-                if (result.value) {
-                    this.$store.dispatch('entries/delete', entry)
-                }
-            })
         },
 
 

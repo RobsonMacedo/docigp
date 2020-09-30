@@ -27,6 +27,14 @@ abstract class Repository
 
     protected $customQueries;
 
+    public function transformSingleRow($row)
+    {
+        $array = [];
+        $array[] = $row;
+        return $this->transform($array)[0];
+    }
+
+
     protected function processCustomQueries($query)
     {
         $this->customQueries &&
