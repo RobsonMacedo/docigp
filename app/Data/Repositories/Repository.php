@@ -27,6 +27,9 @@ abstract class Repository
 
     protected $customQueries;
 
+    
+
+
     protected function processCustomQueries($query)
     {
         $this->customQueries &&
