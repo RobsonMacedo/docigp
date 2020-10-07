@@ -76,6 +76,7 @@
                             </div>
                             
                             <div class="form-group">
+                                <input class="form-control" type="hidden" name="is_blocked" value="false">
                                 <input type="checkbox" name="is_blocked" id="is_blocked" {{ $provider->is_blocked == 1 ? 'checked="checked"' : '' }}  @include('partials.disabled', ['model'=>$provider])/>
                                 <label for="is_blocked">Bloqueado pelo DOCIGP</label>   
                             </div>

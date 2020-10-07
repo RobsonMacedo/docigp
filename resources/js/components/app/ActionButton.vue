@@ -1,23 +1,19 @@
 <template>
-    
-        <button
-            :disabled="disabled"
-            :class="classes"
-            :title="title"
-            @click="pressButton(model)"
+    <button
+        :disabled="disabled"
+        :class="classes"
+        :title="title"
+        @click="pressButton(model)"
+    >
+        <pulse-loader
+            v-if="loading"
+            :color="spinnerColor"
+            :loading="true"
+            :size="spinnerSize"
         >
-            <pulse-loader
-                v-if="loading"
-                :color="spinnerConfig.color ? spinnerConfig.color : 'white'"
-                :loading="true" 
-                :size="spinnerConfig.size ? spinnerConfig.size : '0.4em'"
-
-            >
-            </pulse-loader>
-            <span v-else :class="icon"> {{label}}</span>
-            
-        </button>
-    
+        </pulse-loader>
+        <span v-else :class="icon"> {{ label }}</span>
+    </button>
 </template>
 
 <script>
@@ -34,14 +30,27 @@ export default {
         'method',
         'swal-title',
         'spinner-config',
-        'swal-message'
-        
+        'swal-message',
     ],
-    
+
     data() {
         return {
             loading: false,
         }
+    },
+
+    computed: {
+        spinnerColor: {
+            get() {
+                return this?.spinnerConfig?.color ?? 'white'
+            },
+        },
+
+        spinnerSize: {
+            get() {
+                return this?.spinnerConfig?.size ?? '0.4em'
+            },
+        },
     },
 
     methods: {
@@ -56,7 +65,8 @@ export default {
                 .then(result => {
                     if (result.value) {
                         $this.loading = true
-                            $this.$store.dispatch($this.store + '/' + $this.method, model)
+                        $this.$store
+                            .dispatch($this.store + '/' + $this.method, model)
                             .then(response => {
                                 $this.loading = false
                                 this.$store.commit(
@@ -71,44 +81,57 @@ export default {
                                     showCancelButton: false,
                                     timer: 2000,
                                     icon: 'success',
-                                    title: $this.swalMessage?.r200 ?? 'Salvo com sucesso',
+                                    title:
+                                        $this.swalMessage?.r200 ??
+                                        'Salvo com sucesso',
                                 })
-                            }).catch(error => {
+                            })
+                            .catch(error => {
                                 var title = ''
-                            switch (error.response.status) {
-                                case 404: 
-                                    title = 'Pagina não encontrada'
-                                    break
-                                case 401: 
-                                    title = 'Ação não autorizada'
-                                    break
-                                case 422: 
-                                    title = 'Verifique as informações'
-                                    break    
-                                case 403: 
-                                    title = 'Ação não autorizada'
-                                    break
-                                case 500: 
-                                    title = 'Erro interno - Administradores já foram contactados'
-                                    break
-                                default:
-                                    title = 'Ocorreu um erro'
-                            }
+                                switch (error.response.status) {
+                                    case 404:
+                                        title =
+                                            $this.swalMessage?.r404 ??
+                                            'Pagina não encontrada'
+                                        break
+                                    case 401:
+                                        title =
+                                            $this.swalMessage?.r401 ??
+                                            'Ação não autorizada'
+                                        break
+                                    case 422:
+                                        title =
+                                            $this.swalMessage?.r422 ??
+                                            'Verifique as informações'
+                                        break
+                                    case 403:
+                                        title =
+                                            $this.swalMessage?.r403 ??
+                                            'Ação não autorizada'
+                                        break
+                                    case 500:
+                                        title =
+                                            $this.swalMessage?.r500 ??
+                                            'Erro interno - Administradores já foram contactados'
+                                        break
+                                    default:
+                                        title = 'Ocorreu um erro'
+                                }
 
-                            $this.loading = false
+                                $this.loading = false
 
-                            $this.$swal({
-                                toast: true,
-                                position: 'top-end',
-                                showConfirmButton:false,
-                                showCancelButton:false,
-                                timer: 2000,
-                                icon:'error',
-                                title: title
-                        })
-                    })
-                }
-            })
+                                $this.$swal({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    showCancelButton: false,
+                                    timer: 2000,
+                                    icon: 'error',
+                                    title: title,
+                                })
+                            })
+                    }
+                })
         },
     },
 }
