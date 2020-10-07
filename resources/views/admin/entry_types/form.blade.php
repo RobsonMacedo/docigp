@@ -50,6 +50,7 @@
 
                             <div class="form-group">
                                 <label for="document_number_required">Este tipo de lançamento exige número de documento</label>
+                                <input class="form-control" type="hidden" name="document_number_required" value="false">
                                 <input type="checkbox" name="document_number_required" id="document_number_required" {{ $entryType->document_number_required == 1 ? 'checked="checked"' : '' }}   @include('partials.disabled', ['model'=>$entryType])/>
                             </div>
                         </div>
