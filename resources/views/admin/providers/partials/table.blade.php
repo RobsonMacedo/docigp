@@ -16,7 +16,7 @@
         <th>CPF_CNPJ</th>
         <th>Tipo de Pessoa</th>
         <th>Nome</th>
-        <th>Bloqueado pelo DOCIGP</th>
+        <th>Bloqueado pela DOCIGP</th>
     </tr>
     </thead>
 
@@ -31,9 +31,17 @@
             <td>
                 {{ $provider->name }}
             </td>
-            <td>
-                {{$provider->is_blocked ? 'Sim' : 'Não'}}
-            </td>
+            @if ($provider->is_blocked)
+                <td style=color:red>
+                    <strong>    
+                        Sim
+                    </strong>
+                </td>
+            @else
+                <td>
+                    Não
+                </td>
+            @endif
         </tr>
     @empty
         <p>Nenhum Fornecedor ou Favorecido encontrado</p>

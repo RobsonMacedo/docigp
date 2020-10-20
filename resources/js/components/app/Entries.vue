@@ -72,7 +72,7 @@
                         <br />
                         <small class="text-primary">
                             {{ entry.cpf_cnpj }} 
-                            <b class='text-danger'> {{ entry.provider_is_blocked ? '- Bloqueado pelo DOCIGP': ''}} </b>
+                            <b class='text-danger'> {{ entry.provider_is_blocked ? '- Bloqueado pela DOCIGP': ''}} </b>
                         </small>
                     </span>
                 </td>
