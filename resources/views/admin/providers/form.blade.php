@@ -74,11 +74,11 @@
                                 <label for="name">Nome</label>
                                 <input class="form-control" name="name" id="name" value="{{is_null(old('name')) ? $provider->name : old('name')}}"  @include('partials.disabled', ['model'=>$provider])/>
                             </div>
-                            
+
                             <div class="form-group">
                                 <input class="form-control" type="hidden" name="is_blocked" value="false">
                                 <input type="checkbox" name="is_blocked" id="is_blocked" {{ $provider->is_blocked == 1 ? 'checked="checked"' : '' }}  @include('partials.disabled', ['model'=>$provider])/>
-                                <label for="is_blocked">Bloqueado pelo DOCIGP</label>   
+                                <label for="is_blocked">Bloqueado pela DOCIGP</label>
                             </div>
 
                         </div>

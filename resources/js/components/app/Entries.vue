@@ -71,8 +71,15 @@
                     <span v-if="entry.cpf_cnpj">
                         <br />
                         <small class="text-primary">
-                            {{ entry.cpf_cnpj }} 
-                            <b class='text-danger'> {{ entry.provider_is_blocked ? '- Bloqueado pela DOCIGP': ''}} </b>
+                            {{ entry.cpf_cnpj }}
+                            <b class="text-danger">
+                                {{
+                                    can('entries:show') &&
+                                    entry.provider_is_blocked
+                                        ? '- Bloqueado pela DOCIGP'
+                                        : ''
+                                }}
+                            </b>
                         </small>
                     </span>
                 </td>
@@ -159,7 +166,6 @@
 
                 <td class="align-middle text-right">
                     <div>
-
                         <app-action-button
                             v-if="getEntryState(entry).buttons.verify.visible"
                             :disabled="
@@ -173,10 +179,8 @@
                             icon="fa fa-check"
                             store="entries"
                             method="verify"
-                        > 
+                        >
                         </app-action-button>
-
-
 
                         <app-action-button
                             v-if="getEntryState(entry).buttons.unverify.visible"
@@ -191,11 +195,9 @@
                             icon="fa fa-ban"
                             store="entries"
                             method="unverify"
-                            :spinner-config="{'color': 'black'}"
-                        > 
+                            :spinner-config="{ color: 'black' }"
+                        >
                         </app-action-button>
-
-
 
                         <app-action-button
                             v-if="getEntryState(entry).buttons.analyse.visible"
@@ -210,25 +212,28 @@
                             icon="fa fa-check"
                             store="entries"
                             method="analyse"
-                        > 
+                        >
                         </app-action-button>
 
                         <app-action-button
-                            v-if="getEntryState(entry).buttons.unanalyse.visible"
+                            v-if="
+                                getEntryState(entry).buttons.unanalyse.visible
+                            "
                             :disabled="
                                 getEntryState(entry).buttons.unanalyse.disabled
                             "
                             classes="btn btn-sm btn-micro btn-danger"
-                            :title="getEntryState(entry).buttons.unanalyse.title"
+                            :title="
+                                getEntryState(entry).buttons.unanalyse.title
+                            "
                             :model="entry"
                             swal-title="Remover análise deste lançamento?"
                             label="analisado"
                             icon="fa fa-ban"
                             store="entries"
                             method="unanalyse"
-                        > 
+                        >
                         </app-action-button>
-
 
                         <app-action-button
                             v-if="getEntryState(entry).buttons.publish.visible"
@@ -243,25 +248,29 @@
                             icon="fa fa-check"
                             store="entries"
                             method="publish"
-                        > 
+                        >
                         </app-action-button>
 
                         <app-action-button
-                            v-if="getEntryState(entry).buttons.unpublish.visible"
+                            v-if="
+                                getEntryState(entry).buttons.unpublish.visible
+                            "
                             :disabled="
                                 getEntryState(entry).buttons.unpublish.disabled
                             "
                             classes="btn btn-sm btn-micro btn-danger"
-                            :title="getEntryState(entry).buttons.unpublish.title"
+                            :title="
+                                getEntryState(entry).buttons.unpublish.title
+                            "
                             :model="entry"
                             swal-title="Despublicar este lançamento?"
                             label="despublicar"
                             icon="fa fa-ban"
                             store="entries"
                             method="unpublish"
-                        > 
+                        >
                         </app-action-button>
-                       
+
                         <button
                             v-if="getEntryState(entry).buttons.edit.visible"
                             :disabled="
@@ -287,10 +296,9 @@
                             icon="fa fa-trash"
                             store="entries"
                             method="delete"
-                            :spinner-config="{'size': '0.05em'}"
-                            :swal-message="{'r200': 'Deletado com sucesso'}"
-
-                        > 
+                            :spinner-config="{ size: '0.05em' }"
+                            :swal-message="{ r200: 'Deletado com sucesso' }"
+                        >
                         </app-action-button>
                     </div>
                 </td>
@@ -439,7 +447,6 @@ export default {
 
             return columns
         },
-
 
         createEntry() {
             if (filled(this.form.id)) {
