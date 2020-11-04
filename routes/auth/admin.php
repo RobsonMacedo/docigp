@@ -23,5 +23,7 @@ Route::group(
         require __DIR__ . '/web/costCenters.php';
         require __DIR__ . '/web/entryTypes.php';
         require __DIR__ . '/web/audits.php';
+        require __DIR__ . '/web/annualReports.php';
     }
+    
 );

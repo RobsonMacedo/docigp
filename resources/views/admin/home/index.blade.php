@@ -105,6 +105,17 @@
                                                 ])
                                             </div>
                                             @endCan
+
+                                        @can('annualReports')
+                                        <div class="col-sm-12 col-md-6 col-lg-4">
+                                            @include('partials.tile', [
+                                            'route' => route('annualReports.index'),
+                                            'title' => 'Relatório Anual',
+                                            'color' => 'orange',
+                                            'icon' => 'fas fa-chart-bar fa-5x',
+                                            ])
+                                        </div>
+                                        @endCan
                                         </div>
                                     </div>
                                 @endsection
